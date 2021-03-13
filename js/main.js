@@ -15,7 +15,7 @@ function ready(){
 	if(debug){
 		// carouselDurationUpdate = 6000;
 		// Добавляем тестовый вариант карусели
-		let carouselId = addCarouselTiter();
+		let carouselId = addCarouselTiter('79647090506');
 		titresList[carouselId].addMessage({title: "hi!", text: "text"});
 		titresList[carouselId].addMessage({title: "hi111!", text: "text1"});
 	}
@@ -24,12 +24,23 @@ function ready(){
 	titresInterval = setInterval(titresLife, carouselDurationUpdate);
 }
 
+function onKey(e){
+	switch(e.code){
+		case "KeyD":
+			if(debug){
+				titresLife();
+			}
+			break;
+	}
+}
+
 // Добавить титр карусели
-function addCarouselTiter(idTitre = "carousel"){
+function addCarouselTiter(user, idTitre = "carousel"){
 	// Добавляем в массив новый цикл
 	titresList.push({
 		type: "carousel",
 		messages: [],
+		user: 0,
 		lastMessageId: 0,
 		nextMessageIndex: 0,
 		isStarted: false,
@@ -38,7 +49,7 @@ function addCarouselTiter(idTitre = "carousel"){
 			this.messages.push(data);
 		},
 		load: function() {
-			fetch(`http://api.stream.iactive.pro/titreInfo?user=${user}&from=${_this.lastMessageId}&type=1`, {}).then(async(res) => {
+			fetch(`http://api.stream.iactive.pro/titreInfo?user=${this.user}&from=${this.lastMessageId}&type=1`, {}).then(async(res) => {
 				try{
 					let dataRes = await res.json();
 					return dataRes;
@@ -67,7 +78,7 @@ function addCarouselTiter(idTitre = "carousel"){
 				document.getElementById(this.idTitre).querySelector(".text").textContent = currentMessage.text;
 				document.getElementById(this.idTitre).classList.remove("anim-carousel-hide"); 
 				document.getElementById(this.idTitre).classList.add("anim-carousel-show");
-			}, carouselDurationAnimation);
+			}, carouselDurationAnimation + 500);
 		}
 	});
 	// Выводим ID нового титра
@@ -86,5 +97,6 @@ function titresLife(){
 	}
 }
 
-// Задаём событие
+// Задаём события
 document.addEventListener("DOMContentLoaded", ready);
+document.addEventListener("keypress", onKey);

@@ -10,16 +10,36 @@
 
 /* Набор анимаций с прозрачным выездом сверху */
 @keyframes opacity-showup{
-	0%{bottom: 100%; opacity: 0;}
-	80%{opacity: 0;}
-	100%{bottom: 0; opacity: 1;}
+	0%{transform: translateY(-100%); opacity: 0;}
+	100%{transform: translateY(0); opacity: 1;}
 }
 @keyframes opacity-fadeup{
-	0%{bottom: 0; opacity: 1;}
-	30%{opacity:  0;}
-	100%{bottom: 100%; opacity: 0;}
+	0%{transform: translateY(0); opacity: 1;}
+	100%{transform: translateY(-100%); opacity: 0;}
 }
 
-/* Animation of carousel */
-.anim-carousel-show{ animation: opacity-showup 1s; opacity: 1; bottom: 0; }
-.anim-carousel-hide{ animation: opacity-fadeup 1s; opacity: 0; bottom: 100%; }
+/* Анимация карусель */
+@keyframes carousel-show{
+	0%{ transform: rotate(360deg); opacity: 0; }
+	100%{ transform: rotate(0deg); opacity: 1; }
+}
+@keyframes carousel-hide{
+	0%{ transform: rotate(0deg); opacity: 1; }
+	100%{ transform: rotate(360deg); opacity: 0; }
+}
+
+/* Анимация растяжения */
+@keyframes width-show{
+	0%{ transform: scaleX(0) translateX(-100%); opacity: 0; }
+	100%{ transform: scaleX(100%) translateX(0%); opacity: 1; }
+}
+@keyframes width-hide{
+	0%{ transform: scaleX(100%) translateX(0%); opacity: 1; }
+	100%{ transform: scaleX(0) translateX(-100%); opacity: 0; }
+}
+
+/* Animation for carousel */
+.anim-carousel-show .content { animation: opacity-showup 1s; opacity: 1; bottom: 0; }
+.anim-carousel-show .icon { animation: carousel-show 1s; opacity: 1; }
+.anim-carousel-hide .content { animation: opacity-fadeup 1s; opacity: 0; bottom: 100%; }
+.anim-carousel-hide .icon { animation: carousel-hide 1s; opacity: 0; }
