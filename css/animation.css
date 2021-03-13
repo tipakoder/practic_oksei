@@ -1,0 +1,25 @@
+/* Набор анимаций с прозрачностью */
+@keyframes opacity-show{
+	0% {opacity: 0;}
+	100% {opacity: 1;}
+}
+@keyframes opacity-hide{
+	0% {opacity: 1;}
+	100% {opacity: 0;}
+}
+
+/* Набор анимаций с прозрачным выездом сверху */
+@keyframes opacity-showup{
+	0%{bottom: 100%; opacity: 0;}
+	80%{opacity: 0;}
+	100%{bottom: 0; opacity: 1;}
+}
+@keyframes opacity-fadeup{
+	0%{bottom: 0; opacity: 1;}
+	30%{opacity:  0;}
+	100%{bottom: 100%; opacity: 0;}
+}
+
+/* Animation of carousel */
+.anim-carousel-show{ animation: opacity-showup 1s; opacity: 1; bottom: 0; }
+.anim-carousel-hide{ animation: opacity-fadeup 1s; opacity: 0; bottom: 100%; }

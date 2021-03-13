@@ -1,0 +1,42 @@
+/* Начальная разметка */
+*{
+	margin: 0;
+	padding: 0;	
+}
+body{
+	padding: 32px;
+}
+
+/* Титр */
+.titre{
+	position: relative;
+	padding: 0 16px;
+	display: inline-block;
+}
+
+/* Титр карусели */
+.titre.carousel .wrapper{
+	display: flex;
+	align-items: flex-start;
+}
+.titre.carousel .icon{
+	width: 50px;
+	height: 50px;
+	margin-right: 16px;
+}
+.titre.carousel .content{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 18px;
+	border-radius: 16px;
+	background-color: #009dd4;
+	color: #FFF;
+	min-width: 200px;
+}
+.titre.carousel .content .title{
+	font-size: 22pt;
+}
+.titre.carousel .content .text{
+	font-size: 14pt;
+}
