@@ -92,3 +92,12 @@ body{
 	top: 0;
 	background-color: #17e63a;
 }
+.titre.vote .variors{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	color: #FFF;
+	margin-top: 16px;
+	width: 100%;
+}
+.titre.vote .variors .item{ display: block; }

@@ -14,7 +14,7 @@ var carouselDefaultImage = "img/cover.png";
 function ready(){
 	// Включаем дэбаг мод
 	if(debug){
-		addVoteTitre();
+		addVoteTitre('79647090506');
 		// Добавляем тестовый вариант карусели
 		addCarouselTiter('79647090506');
 		addCarouselTiter('79619002008', "carousel1");
@@ -73,7 +73,10 @@ function addCarouselTiter(user, idTitre = "carousel"){
 				if(data == null) return;
 				// Добавляем сообщения в общий массив
 				for(let message of data.messagesList){
-					if(data.deletedMessagesIdList.indexOf(message.id) == -1) {
+					if(
+						data.deletedMessagesIdList.indexOf(message.id) === -1 &&
+						this.messages.findIndex(elm => elm.message.author == message.message.author) === -1
+					){
 						this.addMessage(message);
 					}
 				}
@@ -138,23 +141,66 @@ function addCarouselTiter(user, idTitre = "carousel"){
 }
 
 // Добавить титр голосования
-function addVoteTitre(question = "Question YUP", idTitre = "vote"){
+function addVoteTitre(user, question = "Question YUP", variors = ["Автомобиль", "Автобус"], idTitre = "vote"){
 	titresList.push({
 		type: "vote",
 		question: question,
 		votes: [],
-		user: 0,
+		user: user,
 		progress: 0,
 		isStarted: false,
 		idTitre: idTitre,
+		lastMessageId: 0,
+		init: function(){
+			// Добавление вариантов
+			let variorsObject = document.getElementById(this.idTitre).querySelector(".variors");
+			for(let varior of variors){
+				let obj = document.createElement("p");
+				obj.className = "item";
+				obj.textContent = varior;
+				variorsObject.appendChild(obj);
+			}
+			this.life();
+		},
 		addVote: function(type = "y", data = []){
 			this.votes.push({type: type, data: data});
 		},
+		load: function() {
+			fetch(`http://api.stream.iactive.pro/titreInfo?user=${this.user}&from=${this.lastMessageId}&type=3`, {}).then(async(res) => {
+				try{
+					let dataRes = await res.json();
+					return dataRes;
+				}catch(e){
+					alert("Неверный ответ от сервера");
+				}
+				return res;
+			}).then((data) => {
+				// Отладка
+				if(debug) console.log(data);
+				// Если дата не пришла, выкидываем нас
+				if(data == null) return;
+				// Добавляем сообщения в общий массив
+				for(let message of data.messagesList){
+					// Исключаем повторений авторов и удалённых сообщений
+					if(
+						data.deletedMessagesIdList.indexOf(message.id) === -1 &&
+						this.messages.findIndex(elm => elm.message.author == message.message.author) === -1
+					){
+						this.addMessage(message);
+					}
+				}
+				// Запоминаем индекс последнего сообщения
+				this.lastMessageId = this.messages[0].id;
+			}).catch((error) => {
+				console.log(error);
+			});
+		},
 		life: function(){
 			let voteObject = document.getElementById(this.idTitre);
+			// Считаем голоса
 			let yesVote = 0;
 			for(let vote of this.votes){ yesVote++; if(vote.type == "n" && yesVote > 0) {yesVote--;} }
-			let procent = ( 100 / this.votes.length ) * yesVote;
+			let procent = Math.ceil(( 100 / this.votes.length ) * yesVote);
 			// Дэбаг процентного соотношения
 			if(debug) console.log(procent);
 			if(procent > 0) {
@@ -170,6 +216,10 @@ function addVoteTitre(question = "Question YUP", idTitre = "vote"){
 			}
 		}
 	});
+	let newID = (titresList.length-1);
+	titresList[newID].init();
+	// Выводим ID нового титра
+	return newID;
 }
 
 // Обработка титров (ЖЦ)
@@ -181,6 +231,7 @@ function titresLife(){
 				titre.life();
 				break;
 			case "vote":
+				titre.load();
 				titre.life();
 				break;
 		}
