@@ -13,6 +13,11 @@
 	0%{transform: translateY(-100%); opacity: 0;}
 	100%{transform: translateY(0); opacity: 1;}
 }
+@keyframes opacity-showup-duration{
+	0%{transform: translateY(-100%); opacity: 0;}
+	50%{transform: translateY(-100%); opacity: 0;}
+	100%{transform: translateY(0); opacity: 1;}
+}
 @keyframes opacity-fadeup{
 	0%{transform: translateY(0); opacity: 1;}
 	100%{transform: translateY(-100%); opacity: 0;}
@@ -30,16 +35,21 @@
 
 /* Анимация растяжения */
 @keyframes width-show{
-	0%{ transform: scaleX(0) translateX(-100%); opacity: 0; }
-	100%{ transform: scaleX(100%) translateX(0%); opacity: 1; }
+	0%{ transform: scaleX(0); opacity: 0; }
+	100%{ transform: scaleX(100%); opacity: 1; }
 }
 @keyframes width-hide{
-	0%{ transform: scaleX(100%) translateX(0%); opacity: 1; }
-	100%{ transform: scaleX(0) translateX(-100%); opacity: 0; }
+	0%{ transform: scaleX(100%); opacity: 1; }
+	100%{ transform: scaleX(0); opacity: 0; }
 }
 
-/* Animation for carousel */
+/* Анимации для карусели */
 .anim-carousel-show .content { animation: opacity-showup 1s; opacity: 1; bottom: 0; }
 .anim-carousel-show .icon { animation: carousel-show 1s; opacity: 1; }
 .anim-carousel-hide .content { animation: opacity-fadeup 1s; opacity: 0; bottom: 100%; }
 .anim-carousel-hide .icon { animation: carousel-hide 1s; opacity: 0; }
+
+/* Анимации для голосования */
+.titre.vote { animation: width-show 1s; }
+.titre.vote .wrapper { animation: opacity-showup-duration 1.2s; }
+.titre.vote .progress-bar .bar{ transition: 0.5s right; }
