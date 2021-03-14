@@ -27,19 +27,21 @@ body{
 	margin-right: 16px;
 }
 .titre.carousel .content{
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	position: relative;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	padding: 18px;
 	border-radius: 16px;
-	background-color: #009dd4;
+	background-color: #2d3f53;
 	color: #FFF;
 	min-width: 200px;
 	max-width: 300px;
 }
 .titre.carousel .content .title{
 	font-size: 22pt;
+	color: #ec4f6e;
 }
 .titre.carousel .content .text{
 	font-size: 14pt;
@@ -51,8 +53,9 @@ body{
 
 /* Титр голосования */
 .titre.vote{
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	padding: 16px;
-	background-color: #009dd4;
+	background-color: #2d3f53;
 	border-radius: 16px;
 }
 .titre.vote .wrapper{
@@ -76,7 +79,7 @@ body{
 	justify-content: center;
 	border-radius: 16px;
 	overflow: hidden;
-	background-color: #ff6b6b;
+	background-color: red;
 }
 .titre.vote .progress-bar .text{
 	font-size: 18pt;
@@ -90,7 +93,7 @@ body{
 	right: 50%;
 	bottom: 0;
 	top: 0;
-	background-color: #17e63a;
+	background-color: blue;
 }
 .titre.vote .variors{
 	display: flex;
