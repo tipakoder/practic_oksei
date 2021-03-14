@@ -21,8 +21,9 @@ body{
 }
 .titre.carousel .icon{
 	position: relative;
-	width: 50px;
-	height: 50px;
+	width: 80px;
+	height: 80px;
+	border-radius: 100%;
 	margin-right: 16px;
 }
 .titre.carousel .content{
@@ -35,10 +36,15 @@ body{
 	background-color: #009dd4;
 	color: #FFF;
 	min-width: 200px;
+	max-width: 500px;
 }
 .titre.carousel .content .title{
 	font-size: 22pt;
 }
 .titre.carousel .content .text{
 	font-size: 14pt;
+	margin-bottom: 8px;
+}
+.titre.carousel .content .attachment{
+	border-radius: 16px;
 }

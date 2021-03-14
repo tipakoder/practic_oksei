@@ -20,12 +20,12 @@
 
 /* Анимация карусель */
 @keyframes carousel-show{
-	0%{ transform: rotate(360deg); opacity: 0; }
-	100%{ transform: rotate(0deg); opacity: 1; }
+	0%{ transform: rotate(360deg) scale3d(0, 0, 0); opacity: 0; }
+	100%{ transform: rotate(0deg) scale3d(100%, 100%, 0); opacity: 1; }
 }
 @keyframes carousel-hide{
-	0%{ transform: rotate(0deg); opacity: 1; }
-	100%{ transform: rotate(360deg); opacity: 0; }
+	0%{ transform: rotate(0deg) scale3d(100%, 100%, 0); opacity: 1; }
+	100%{ transform: rotate(360deg) scale3d(0, 0, 0); opacity: 0; }
 }
 
 /* Анимация растяжения */
