@@ -36,7 +36,7 @@ body{
 	background-color: #009dd4;
 	color: #FFF;
 	min-width: 200px;
-	max-width: 500px;
+	max-width: 300px;
 }
 .titre.carousel .content .title{
 	font-size: 22pt;
@@ -47,4 +47,48 @@ body{
 }
 .titre.carousel .content .attachment{
 	border-radius: 16px;
+}
+
+/* Титр голосования */
+.titre.vote{
+	padding: 16px;
+	background-color: #009dd4;
+	border-radius: 16px;
+}
+.titre.vote .wrapper{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	min-width: 500px;
+}
+.titre.vote .title{
+	text-align: center;
+	font-size: 22pt;
+	color: #FFF;
+}
+.titre.vote .progress-bar{
+	position: relative;
+	height: 60px;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 16px;
+	overflow: hidden;
+	background-color: #ff6b6b;
+}
+.titre.vote .progress-bar .text{
+	font-size: 18pt;
+	text-align: center;
+	z-index: 1000;
+	color: #FFF;
+}
+.titre.vote .progress-bar .bar{
+	position: absolute;
+	left: 0;
+	right: 50%;
+	bottom: 0;
+	top: 0;
+	background-color: #17e63a;
 }

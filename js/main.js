@@ -14,23 +14,33 @@ var carouselDefaultImage = "img/cover.png";
 function ready(){
 	// Включаем дэбаг мод
 	if(debug){
+		addVoteTitre();
 		// Добавляем тестовый вариант карусели
 		addCarouselTiter('79647090506');
 		addCarouselTiter('79619002008', "carousel1");
-		addCarouselTiter('79325503338', "carousel2");
 	}
 
 	// Стартуем интервал жизни цикла
 	titresInterval = setInterval(titresLife, carouselDurationUpdate);
 }
 
+// Отлов клавиш (пока для дэбага)
 function onKey(e){
-	switch(e.code){
-		case "KeyD":
-			if(debug){
+	// Дэбаг клавиши
+	if(debug){
+		switch(e.code){
+			case "KeyD":
 				titresLife();
-			}
-			break;
+				break;
+			case "KeyY":
+				titresList[0].addVote("y");
+				titresList[0].life();
+				break;
+			case "KeyN":
+				titresList[0].addVote("n");
+				titresList[0].life();
+				break;
+		}
 	}
 }
 
@@ -59,6 +69,8 @@ function addCarouselTiter(user, idTitre = "carousel"){
 			}).then((data) => {
 				// Отладка
 				if(debug) console.log(data);
+				// Если дата не пришла, выкидываем нас
+				if(data == null) return;
 				// Добавляем сообщения в общий массив
 				for(let message of data.messagesList){
 					if(data.deletedMessagesIdList.indexOf(message.id) == -1) {
@@ -125,12 +137,50 @@ function addCarouselTiter(user, idTitre = "carousel"){
 	return (titresList.length-1);
 }
 
+// Добавить титр голосования
+function addVoteTitre(question = "Question YUP", idTitre = "vote"){
+	titresList.push({
+		type: "vote",
+		question: question,
+		votes: [],
+		user: 0,
+		progress: 0,
+		isStarted: false,
+		idTitre: idTitre,
+		addVote: function(type = "y", data = []){
+			this.votes.push({type: type, data: data});
+		},
+		life: function(){
+			let voteObject = document.getElementById(this.idTitre);
+			let yesVote = 0;
+			for(let vote of this.votes){ yesVote++; if(vote.type == "n" && yesVote > 0) {yesVote--;} }
+			let procent = ( 100 / this.votes.length ) * yesVote;
+			// Дэбаг процентного соотношения
+			if(debug) console.log(procent);
+			if(procent > 0) {
+				// Если процент задан
+				voteObject.querySelector(".title").textContent = this.question;
+				voteObject.querySelector(".bar").style.right = (100-procent)+"%";
+				voteObject.querySelector(".text").textContent = Math.floor(procent)+"%";
+			} else {
+				// А если какие-то проблемы, то он нулевой
+				voteObject.querySelector(".title").textContent = this.question;
+				voteObject.querySelector(".bar").style.right = "100%";
+				voteObject.querySelector(".text").textContent = "0%";
+			}
+		}
+	});
+}
+
 // Обработка титров (ЖЦ)
 function titresLife(){
 	for(let titre of titresList){
 		switch(titre.type){
 			case "carousel":
 				titre.load();
+				titre.life();
+				break;
+			case "vote":
 				titre.life();
 				break;
 		}
