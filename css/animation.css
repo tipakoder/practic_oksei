@@ -37,12 +37,12 @@
 	100%{transform: translateY(100%); opacity: 0;}
 }
 
-/* Анимация карусель */
-@keyframes carousel-show{
+/* Анимация барабан */
+@keyframes drum-show{
 	0%{ transform: rotate(360deg) scale3d(0, 0, 0); opacity: 0; }
 	100%{ transform: rotate(0deg) scale3d(100%, 100%, 0); opacity: 1; }
 }
-@keyframes carousel-hide{
+@keyframes drum-hide{
 	0%{ transform: rotate(0deg) scale3d(100%, 100%, 0); opacity: 1; }
 	100%{ transform: rotate(360deg) scale3d(0, 0, 0); opacity: 0; }
 }
@@ -73,11 +73,10 @@
 }
 
 /* Анимации для карусели */
-.titre.carousel .content{ transition: 0.5s width; }
-.anim-carousel-show .content { animation: opacity-showup 1s; opacity: 1; bottom: 0; }
-.anim-carousel-show .icon { animation: carousel-show 1s; opacity: 1; }
-.anim-carousel-hide .content { animation: opacity-fadeup 1s; opacity: 0; bottom: 100%; }
-.anim-carousel-hide .icon { animation: carousel-hide 1s; opacity: 0; }
+.anim-drum-show .content { animation: opacity-showup 1s; opacity: 1; bottom: 0; }
+.anim-drum-show .icon { animation: drum-show 1s; opacity: 1; }
+.anim-drum-hide .content { animation: opacity-fadeup 1s; opacity: 0; bottom: 100%; }
+.anim-drum-hide .icon { animation: drum-hide 1s; opacity: 0; }
 
 /* Анимации для голосования */
 .titre.vote { animation: width-show 1s; }

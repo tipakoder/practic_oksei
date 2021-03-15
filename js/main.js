@@ -6,9 +6,9 @@ var titresInterval = null;
 var debug = true;
 
 // Настройки
-var carouselDurationUpdate = 10000; // seconds
-var carouselDurationAnimation = 1000; // seconds
-var carouselDefaultImage = "img/cover.png";
+var drumDurationUpdate = 10000; // seconds
+var drumDurationAnimation = 1000; // seconds
+var drumDefaultImage = "img/cover.png";
 
 // При старте
 function ready(){
@@ -16,12 +16,12 @@ function ready(){
 	if(debug){
 		addVoteTitre('79647090506');
 		// Добавляем тестовый вариант карусели
-		addCarouselTiter('79647090506');
-		addCarouselTiter('79619002008', "carousel1");
+		addDrumTiter('79647090506');
+		// addDrumTiter('79619002008', "drum1");
 	}
 
 	// Стартуем интервал жизни цикла
-	titresInterval = setInterval(titresLife, carouselDurationUpdate);
+	titresInterval = setInterval(titresLife, drumDurationUpdate);
 }
 
 // Отлов клавиш (пока для дэбага)
@@ -45,10 +45,10 @@ function onKey(e){
 }
 
 // Добавить титр карусели
-function addCarouselTiter(user, idTitre = "carousel"){
+function addDrumTiter(user, idTitre = "drum"){
 	// Добавляем в массив новый цикл
 	titresList.push({
-		type: "carousel",
+		type: "drum",
 		messages: [],
 		user: user,
 		lastMessageId: 0,
@@ -90,18 +90,19 @@ function addCarouselTiter(user, idTitre = "carousel"){
 			// Делаем ссылку на титр
 			let titreObject = document.getElementById(this.idTitre);
 			// Скрываем старое сообщение	
-			if(titreObject.classList.contains("anim-carousel-show")){
-				titreObject.classList.remove("anim-carousel-show");
-				titreObject.classList.add("anim-carousel-hide");
+			if(titreObject.classList.contains("anim-drum-show")){
+				titreObject.classList.remove("anim-drum-show");
+				titreObject.classList.add("anim-drum-hide");
 			}
 			// Убираем анимацию скрытия и показываем
 			setTimeout(() => {
 				// Берём следующее сообщение
 				let currentMessage = this.messages[this.nextMessageIndex];
+				if(currentMessage == null) return;
 				// Отладка
 				if(debug) console.log(currentMessage);
 				// Отбиваем брак аватарки
-				titreObject.querySelector(".icon").src = carouselDefaultImage;
+				titreObject.querySelector(".icon").src = drumDefaultImage;
 				if(currentMessage.message.image != ""){
 					verifyImage(currentMessage.message.image, function(){
 						titreObject.querySelector(".icon").src = this.src;
@@ -120,11 +121,11 @@ function addCarouselTiter(user, idTitre = "carousel"){
 					});
 				}
 				// Присваиваем анимацию появления
-				titreObject.classList.remove("anim-carousel-hide"); 
-				titreObject.classList.add("anim-carousel-show");
+				titreObject.classList.remove("anim-drum-hide"); 
+				titreObject.classList.add("anim-drum-show");
 				// Загужаем ID следующего сообщения
 				this.nextMessage();
-			}, carouselDurationAnimation + 500);
+			}, drumDurationAnimation + 500);
 		},
 		nextMessage: function(){
 			let choice = false;
@@ -163,7 +164,7 @@ function addVoteTitre(user, question = "Question YUP", variors = ["NO", "YES"], 
 			this.life();
 		},
 		addVote: function(type = "y", data = []){
-			this.votes.push({type: type, data: data});
+			this.votes.unshift({type: type, data: data});
 		},
 		load: function() {
 			fetch(`http://api.stream.iactive.pro/titreInfo?user=${this.user}&from=${this.lastMessageId}&type=3`, {}).then(async(res) => {
@@ -192,7 +193,7 @@ function addVoteTitre(user, question = "Question YUP", variors = ["NO", "YES"], 
 				// Запоминаем индекс последнего сообщения
 				this.lastMessageId = this.messages[0].id;
 			}).catch((error) => {
-				console.log(error);
+				if(debug) console.log(error);
 			});
 		},
 		life: function(){
@@ -226,7 +227,7 @@ function addVoteTitre(user, question = "Question YUP", variors = ["NO", "YES"], 
 function titresLife(){
 	for(let titre of titresList){
 		switch(titre.type){
-			case "carousel":
+			case "drum":
 				titre.load();
 				titre.life();
 				break;
