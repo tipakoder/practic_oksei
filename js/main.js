@@ -141,7 +141,7 @@ function addCarouselTiter(user, idTitre = "carousel"){
 }
 
 // Добавить титр голосования
-function addVoteTitre(user, question = "Question YUP", variors = ["Автомобиль", "Автобус"], idTitre = "vote"){
+function addVoteTitre(user, question = "Question YUP", variors = ["NO", "YES"], idTitre = "vote"){
 	titresList.push({
 		type: "vote",
 		question: question,

@@ -22,6 +22,20 @@
 	0%{transform: translateY(0); opacity: 1;}
 	100%{transform: translateY(-100%); opacity: 0;}
 }
+@keyframes opacity-showhide-delay{
+	0%{transform: translateY(-100%); opacity: 0;}
+	5%{transform: translateY(0); opacity: 1;}
+	85%{transform: translateY(0%); opacity: 1;}
+	90%{transform: translateY(-100%); opacity: 0;}
+	100%{transform: translateY(-100%); opacity: 0;}
+}
+@keyframes opacity-showhidedown-delay{
+	0%{transform: translateY(100%); opacity: 0;}
+	5%{transform: translateY(0); opacity: 1;}
+	85%{transform: translateY(0%); opacity: 1;}
+	90%{transform: translateY(100%); opacity: 0;}
+	100%{transform: translateY(100%); opacity: 0;}
+}
 
 /* Анимация карусель */
 @keyframes carousel-show{
@@ -43,7 +57,23 @@
 	100%{ transform: scaleX(0); opacity: 0; }
 }
 
+/* Анимация сердцебиения */
+@keyframes heartBeat {
+    0% { transform: scale(0); }
+    44% { transform: scale(1.1); }
+    58% { transform: scale(1); }
+    72% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Универсальные анимации */
+.anim-delay-opacity-showup{
+	animation: opacity-showhidedown-delay 20s;
+	animation-iteration-count: infinite;
+}
+
 /* Анимации для карусели */
+.titre.carousel .content{ transition: 0.5s width; }
 .anim-carousel-show .content { animation: opacity-showup 1s; opacity: 1; bottom: 0; }
 .anim-carousel-show .icon { animation: carousel-show 1s; opacity: 1; }
 .anim-carousel-hide .content { animation: opacity-fadeup 1s; opacity: 0; bottom: 100%; }
@@ -53,3 +83,4 @@
 .titre.vote { animation: width-show 1s; }
 .titre.vote .wrapper { animation: opacity-showup-duration 1.2s; }
 .titre.vote .progress-bar .bar{ transition: 0.5s right; }
+
