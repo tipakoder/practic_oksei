@@ -15,6 +15,7 @@
 .titre.drum .wrapper{
 	display: flex;
 	align-items: flex-start;
+	margin-bottom: 15px;
 }
 .titre.drum .icon{
 	position: relative;
@@ -184,3 +185,13 @@ section > .title{
 #simple{
 	margin-top: 45px;
 }
+
+.carus-more{
+	display: block;
+	max-width: 250px;
+	height: 350px;
+	animation-name: opacity-showup;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+}
+
