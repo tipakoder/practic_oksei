@@ -10,6 +10,10 @@ var drumDurationUpdate = 10000; // seconds
 var drumDurationAnimation = 1000; // seconds
 var drumDefaultImage = "img/cover.png";
 
+var carouselDurationUpdate = 10000; // seconds
+var carouselDurationAnimation = 1000; // seconds
+var carouselDefaultImage = "img/cover.png";
+
 // При старте
 function ready(){
 	// Включаем дэбаг мод
@@ -17,7 +21,7 @@ function ready(){
 		addVoteTitre('79647090506');
 		// Добавляем тестовый вариант карусели
 		addDrumTiter('79647090506');
-		// addDrumTiter('79619002008', "drum1");
+		addCarouselTiter('79619002008', "carousel");
 	}
 
 	// Стартуем интервал жизни цикла
@@ -44,7 +48,7 @@ function onKey(e){
 	}
 }
 
-// Добавить титр карусели
+// Добавить титр барабана
 function addDrumTiter(user, idTitre = "drum"){
 	// Добавляем в массив новый цикл
 	titresList.push({
@@ -141,8 +145,121 @@ function addDrumTiter(user, idTitre = "drum"){
 	return (titresList.length-1);
 }
 
+// Добавить титр карусели
+function addCarouselTiter(user, idTitre = "carousel"){
+	// Добавляем в массив новый цикл
+	titresList.push({
+		type: "carousel",
+		messages: [],
+		elements: [],
+		user: user,
+		lastMessageId: 0,
+		nextMessageIndex: 0,
+		isStarted: false,
+		idTitre: idTitre,
+		addMessage: function(data){
+			// Записываем сообщение в массив
+			this.messages.push(data);
+			// Создаём новый элемент для сообщения
+			let newEl = document.createElement("div");
+			// Задаём внутреннюю структуру
+			newEl.innerHTML = '<div class="wrapper">'+
+			'<img class="icon" src="'+carouselDefaultImage+'>'+
+				'<div class="content">'+
+					'<h2 class="title"></h2>'+
+					'<p class="text"></p>'+
+					'<img class="attachment" src="" alt="" style="display:none;">'+
+				'</div>'+
+			'</div>';
+			// Добавляем новый элемент в структуру DOM
+			document.querySelector("#"+this.idTitre+" .list").appendChild(newEl);
+		},
+		load: function() {
+			fetch(`http://api.stream.iactive.pro/titreInfo?user=${this.user}&from=${this.lastMessageId}&type=1`, {}).then(async(res) => {
+				try{
+					let dataRes = await res.json();
+					return dataRes;
+				}catch(e){
+					alert("Неверный ответ от сервера");
+				}
+			}).then((data) => {
+				// Отладка
+				if(debug) console.log(data);
+				// Если дата не пришла, выкидываем нас
+				if(data == null) return;
+				// Добавляем сообщения в общий массив
+				for(let message of data.messagesList){
+					if(
+						data.deletedMessagesIdList.indexOf(message.id) === -1 &&
+						this.messages.findIndex(elm => elm.message.author == message.message.author) === -1
+					){
+						this.addMessage(message);
+					}
+				}
+				// Запоминаем индекс последнего сообщения
+				this.lastMessageId = this.messages[0].id;
+			}).catch((error) => {
+				console.log(error);
+			});
+		},
+		life: function(){
+			// Делаем ссылку на титр
+			let titreObject = document.getElementById(this.idTitre);
+			// Скрываем старое сообщение	
+			if(titreObject.classList.contains("anim-carousel-show")){
+				titreObject.classList.remove("anim-carousel-show");
+				titreObject.classList.add("anim-carousel-hide");
+			}
+			// Убираем анимацию скрытия и показываем
+			setTimeout(() => {
+				// Берём следующее сообщение
+				let currentMessage = this.messages[this.nextMessageIndex];
+				if(currentMessage == null) return;
+				// Отладка
+				if(debug) console.log(currentMessage);
+				// Отбиваем брак аватарки
+				titreObject.querySelector(".icon").src = drumDefaultImage;
+				if(currentMessage.message.image != ""){
+					verifyImage(currentMessage.message.image, function(){
+						titreObject.querySelector(".icon").src = this.src;
+					});
+				}
+				// Присваивем значения HTML
+				titreObject.querySelector(".title").textContent = currentMessage.message.author;
+				titreObject.querySelector(".text").textContent = currentMessage.message.content;
+				titreObject.querySelector(".attachment").style.display = "none";
+				// Проверяем вложения
+				if(currentMessage.message.attachments.length > 0 && currentMessage.message.attachments[0].type == "image"){
+					// Отсекаем брак фотки
+					verifyImage(currentMessage.message.attachments[0].url, function(){
+						titreObject.querySelector(".attachment").src = this.src;
+						titreObject.querySelector(".attachment").style.display = "block";
+					});
+				}
+				// Присваиваем анимацию появления
+				titreObject.classList.remove("anim-carousel-hide"); 
+				titreObject.classList.add("anim-carousel-show");
+				// Загужаем ID следующего сообщения
+				this.nextMessage();
+			}, drumDurationAnimation + 500);
+		},
+		nextMessage: function(){
+			let choice = false;
+			while(!choice) {
+				this.nextMessageIndex = ( (this.nextMessageIndex+1) >= this.messages.length) ? 0 : this.nextMessageIndex+1;
+				if(this.messages[this.nextMessageIndex].message.image != ""){
+					choice = true;
+				}
+			}
+		}
+	});
+	// Выводим ID нового титра
+	return (titresList.length-1);
+}
+
+
 // Добавить титр голосования
-function addVoteTitre(user, question = "Question YUP", variors = ["NO", "YES"], idTitre = "vote"){
+function addVoteTitre(user, question = "Вопрос", variors = ["Нет", "Да"], idTitre = "vote"){
 	titresList.push({
 		type: "vote",
 		question: question,
