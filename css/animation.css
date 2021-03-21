@@ -66,17 +66,26 @@
     100% { transform: scale(1); }
 }
 
+/* Анимация прокрутки блока на всю высоту */
+@keyframes carousel-element{
+	0%{ transform: translateY(-100%); }
+	100% { transform: translateY(100%); }
+}
+
 /* Универсальные анимации */
 .anim-delay-opacity-showup{
 	animation: opacity-showhidedown-delay 20s;
 	animation-iteration-count: infinite;
 }
 
-/* Анимации для карусели */
+/* Анимации для барабана */
 .anim-drum-show .content { animation: opacity-showup 1s; opacity: 1; bottom: 0; }
 .anim-drum-show .icon { animation: drum-show 1s; opacity: 1; }
 .anim-drum-hide .content { animation: opacity-fadeup 1s; opacity: 0; bottom: 100%; }
 .anim-drum-hide .icon { animation: drum-hide 1s; opacity: 0; }
+
+/* Анимации для карусели */
+.anim-carousel-show{ animation: carousel-element 10s; animation-iteration-count: infinite; }
 
 /* Анимации для голосования */
 .titre.vote { animation: width-show 1s; }
