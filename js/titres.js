@@ -39,7 +39,29 @@ class Titres{
     }
     // Иницализация объектов
     init(){
-        if(this.debug) debugLog("Инициализация объектов", "green", "16pt");
+        // Для дебага (и презентации) указываем наглядно подзаголовок титра
+        if(this.debug){
+            debugLog("Инициализация объектов", "green", "16pt");
+            let nameType = "";
+            switch(this.type){
+                case "drum":
+                    nameType = "Барабан";
+                    break;
+                case "carousel":
+                    nameType = "Карусель";
+                    break;
+                case "vote":
+                    nameType = "Голосование";
+                    break;
+                case "voteComment":
+                    nameType = "Голосование с комментариями";
+                    break;
+            }
+            debugLog(`Текущий титр: ${nameType}`, "yellow", "16pt");
+            document.getElementById("subtitle").textContent = nameType;
+        } else {
+            document.getElementById("subtitle").remove();
+        }
         // Запускаем цикл обновления
         this.lifeInterval = setInterval(() => {this.update()}, parseInt(this.duration));
     }
@@ -47,6 +69,46 @@ class Titres{
     createBlock(data = null){
         if(this.debug) debugLog("Создание блока");
         if(data == null && this.debug) return;
+        // Создаём основу
+        let baseTitre = document.createElement("div");
+        baseTitre.classList.add("titre");
+        baseTitre.classList.add(this.type);
+        // Делаем соответствующий блок
+        switch(this.type){
+            // Барабан
+            case "drum":
+                // Конечные данные
+                let processedData = this.processMessageData(data);
+                // Генерация блока
+                baseTitre.classList.add("anim-drum-show");
+                baseTitre.innerHTML = '<div class="wrapper">'+
+                `<img class="icon" src="${processedData.icon}">`+
+                '<div class="content">'+
+                `<h2 class="title">${processedData.author}</h2>`+
+                `<p class="text">${processedData.content}</p>`;
+                if(processedData.srcAttachment != "") baseTitre.innerHTML += `<img class="attachment" src="${processedData.srcAttachment}" alt="">`;
+                baseTitre.innerHTML += '</div>'+
+                '</div>';
+                break;
+            case "carousel":
+                baseTitre.classList.add("anim-carousel-show");
+                baseTitre.innerHTML = '';
+                for(let message of data){
+                    // Конечные данные
+                    let processedData = this.processMessageData(message.message);
+                    baseTitre.innerHTML += '<div class="wrapper">'+
+                    `<img class="icon" src="${processedData.icon}">`+
+                    '<div class="content">'+
+                    `<h2 class="title">${processedData.author}</h2>`+
+                    `<p class="text">${processedData.content}</p>`+
+                    '</div>'+
+                    '</div>';
+                }
+        }
+        // Возвращаем готовую базу
+        return baseTitre;
+    }
+    processMessageData(data){
         // Обработка времени нового сообщения
         let date = new Date(data.date);
         let offset = ((date.getTimezoneOffset() / 60) + 2) * 60;
@@ -61,34 +123,26 @@ class Titres{
         // if(parseInt(author)) author = hideNumber(author); НЕПОНЯТНАЯ ИСХОДНАЯ СТРОКА
         // Обработка иконки
         let icon = "";
-        if(data.image && data.image !== "" && data.image.includes("http")) icon = data.image; // Присваиваем картинку с другого сервера
+        if(data.image && data.image !== "" && data.image.includes("http")){
+            icon = data.image; // Присваиваем картинку с другого сервера
+        } else {
+            icon = socialIcons[data.channel];
+        }
         // Обработка вложений
         let srcAttachment = "";
         if(data.attachments && data.attachments.length > 0 && data.attachments[0].type == "image"){
             let urlAttachment = data.attachments[0].url;
             srcAttachment = (url.includes("http")) ? urlAttachment : this.preUrl + data.attachments[0].url;
         }
-        // Создаём основу
-        let baseTitre = document.createElement("div");
-        baseTitre.classList.add("titre");
-        baseTitre.classList.add(this.type);
-        // Исходя из типа титра, делаем соответствующий блок
-        switch(this.type){
-            // Барабан
-            case "drum":
-                baseTitre.classList.add("anim-drum-show");
-                baseTitre.innerHTML = '<div class="wrapper">'+
-                `<img class="icon" src="${socialIcons[data.channel]}">`+
-                '<div class="content">'+
-                `<h2 class="title">${author}</h2>`+
-                `<p class="text">${content}</p>`;
-                if(srcAttachment != "") baseTitre.innerHTML += `<img class="attachment" src="${srcAttachment}" alt="">`;
-                baseTitre.innerHTML += '</div>'+
-                '</div>';
-                break;
-        }
-        // Возвращаем готовую базу
-        return baseTitre;
+        // Выводим конечные обработанные данные
+        return {
+            date: date,
+            content: content,
+            author: author,
+            icon: icon,
+            srcAttachment: srcAttachment,
+            channel: data.channel,
+        };
     }
     // Обновление титра
     update(){
@@ -156,8 +210,6 @@ class Titres{
                     this.clearDraw();
                     return;
                 }
-                // След. сообщение
-                this.getNextMessageId();
                 // Следующий ID
                 if(document.getElementById("titreBody").querySelector(".titre.drum")){
                     document.getElementById("titreBody").querySelector(".titre.drum").classList.remove("anim-drum-show");
@@ -168,7 +220,29 @@ class Titres{
                     let newBlock = this.createBlock(nextMessage);
                     document.getElementById("titreBody").innerHTML = "";
                     document.getElementById("titreBody").appendChild(newBlock);
+                    // След. сообщение
+                    this.getNextMessageId();
                 }, 1000);
+                break;
+            case "carousel":
+                // Если сообщений меньше, чем нужно, не отрисовываем
+                if(this.maxCountMessages > this.messages.length || this.messages.length == 0){
+                    this.clearDraw();
+                    return;
+                }
+                // Следующий ID
+                if(document.getElementById("titreBody").querySelector(".titre.carousel")){
+                    document.getElementById("titreBody").querySelector(".titre.carousel").classList.remove("anim-carousel-show");
+                    document.getElementById("titreBody").querySelector(".titre.carousel").classList.add("anim-carousel-hide");
+                }
+                setTimeout(() => {
+                    let nextMessage = this.messages.slice(this.nextMessageId, this.nextMessageId+this.viewCountMessages);
+                    let newBlock = this.createBlock(nextMessage);
+                    document.getElementById("titreBody").innerHTML = "";
+                    document.getElementById("titreBody").appendChild(newBlock);
+                    // След. сообщение
+                    this.getNextMessageId();
+                }, 2000);
                 break;
         }
     }
@@ -184,9 +258,9 @@ class Titres{
                     this.nextMessageId = 0;
                 }
                 break;
-            case "carosel":
+            case "carousel":
                 // Если ID следующего сообщеняи не найден, назначим его на первое
-                if(this.nextMessageId+this.viewCountMessages < this.messages.length){
+                if(this.nextMessageId+this.viewCountMessages <= this.messages.length){
                     this.nextMessageId += this.viewCountMessages;
                 } else {
                     this.theEnd = true;
@@ -209,6 +283,15 @@ class Titres{
                     setTimeout(() => {
                         document.getElementById("titreBody").innerHTML = "";
                     }, 1000);
+                    break;
+                case "carosel":
+                    if(document.getElementById("titreBody").querySelector(".titre.carousel")){
+                        document.getElementById("titreBody").querySelector(".titre.carousel").classList.remove("anim-carousel-show");
+                        document.getElementById("titreBody").querySelector(".titre.carousel").classList.add("anim-carousel-hide");
+                    }
+                    setTimeout(() => {
+                        document.getElementById("titreBody").innerHTML = "";
+                    }, 2000);
                     break;
             }
         }

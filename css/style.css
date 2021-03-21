@@ -4,6 +4,19 @@
 	padding: 0;	
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
+body{
+	display: flex; 
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+}
+#subtitle{
+	position: absolute;
+	bottom: 16px;
+	color: #d6d6d6;
+	font-size: 32pt;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+}
 
 /* Титр */
 .titre{
@@ -49,12 +62,10 @@
 }
 
 /* Титр карусели */
-.titre.carousel .list > *{
-	margin-top: 16px;
-}
 .titre.carousel .wrapper{
 	display: flex;
 	align-items: flex-start;
+	margin-top: 16px;
 }
 .titre.carousel .icon{
 	position: relative;
@@ -195,29 +206,4 @@
     animation-timing-function: ease-in-out;
 }
 
-/* Для презентации */
-section{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    background-color: #fff;
-    position: relative;
-    overflow: hidden;
-}
-section:nth-child(even){ background-color: #eee; }
-section > .title{
-    top: 64px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    font-size: 28pt;
-    font-weight: 600;
-    color: #000;
-    position: absolute;
-    z-index: 2000;
-}
-#simple{
-	margin-top: 45px;
-}
+/* Титр карусели */

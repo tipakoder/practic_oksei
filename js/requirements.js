@@ -12,7 +12,6 @@ var socialIcons = {
     instagram: "img/instagram.png",
     facebook: "img/facebook.png",
 };
-
 // Получение GET параметров
 function get(name, def = false){ // получение параметров get
     if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
