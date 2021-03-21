@@ -100,3 +100,7 @@
 .titre.vote { animation: width-show 1s; }
 .titre.vote .wrapper { animation: opacity-showup-duration 1.2s; }
 .titre.vote .progress-bar .bar{ transition: 0.5s right; }
+
+/* Анимация для одиночного титра */
+.anim-simple-show{ animation: opacity-showup 1s; }
+.anim-simple-hide{ animation: opacity-fadeup 1s; }

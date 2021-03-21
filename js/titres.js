@@ -29,13 +29,20 @@ class Titres{
                 // Полный круг пройден
                 this.theEnd = false;
                 break;
+            case "simple":
+                // Текст сверху
+                this.topText = get("topText", "Ждём звонков на номер ниже");
+                // Текст снизу
+                this.downText = get("downText", "+79328532025");
+                // Иконка снизу
+                this.downIcon = get("downIcon", "img/whatsapp-brands.png");
+                break;
         }
         // Включён ли дэбаг
         this.debug = debug;
         // Инициализируем объекты
         this.messages = [];
         this.init();
-        this.load();
     }
     // Иницализация объектов
     init(){
@@ -56,14 +63,25 @@ class Titres{
                 case "voteComment":
                     nameType = "Голосование с комментариями";
                     break;
+                case "simple":
+                    nameType = "Одиночный титр";
+                    break;
             }
             debugLog(`Текущий титр: ${nameType}`, "yellow", "16pt");
             document.getElementById("subtitle").textContent = nameType;
         } else {
             document.getElementById("subtitle").remove();
         }
-        // Запускаем цикл обновления
-        this.lifeInterval = setInterval(() => {this.update()}, parseInt(this.duration));
+        // Запускаем цикл обновления для карусели и барабана
+        switch(this.type){
+            case "drum":
+            case "carousel":
+                this.lifeInterval = setInterval(() => {this.update()}, parseInt(this.duration));
+                this.load();
+                break;
+            case "simple":
+                this.draw();
+        }
     }
     // Создание блока
     createBlock(data = null){
@@ -104,11 +122,24 @@ class Titres{
                     innerBase += '</div></div>';
                 }
                 break;
+            case "simple":
+                baseTitre.classList.add("anim-simple-show");
+                innerBase = `<div class="wrapper">
+                    <div class="line anim-delay-opacity-showup">
+                        <p class="title">${this.topText}</p>
+                    </div>
+                    <div class="line focus">
+                        <img src="${this.downIcon}" class="icon">
+                        <p class="text">${this.downText}</p>
+                    </div>
+                </div>`;
+                break;
         }
         baseTitre.innerHTML = innerBase;
         // Возвращаем готовую базу
         return baseTitre;
     }
+    // Обработка полученных данных
     processMessageData(data){
         // Обработка времени нового сообщения
         let date = new Date(data.date);
@@ -244,6 +275,11 @@ class Titres{
                     // След. сообщение
                     this.getNextMessageId();
                 }, 2000);
+                break;
+            case "simple":
+                let newBlock = this.createBlock(1);
+                document.getElementById("titreBody").innerHTML = "";
+                document.getElementById("titreBody").appendChild(newBlock);
                 break;
         }
     }

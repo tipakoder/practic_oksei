@@ -189,6 +189,9 @@ body{
     align-items: center;
     justify-content: center;
 }
+.titre.simple .line .title{
+	margin: 0 32px;
+}
 .titre.simple .line.focus {
     background-color: #ec4f6e;
     color: #fff;
@@ -200,7 +203,6 @@ body{
     height: 40px;
     animation: heartBeat 2s ease-in-out;
 }
-
 .titre.simple .line.focus .text{
     font-size: 22pt;
     background-color: #2d3f53;
@@ -210,5 +212,3 @@ body{
     animation-duration: 2s;
     animation-timing-function: ease-in-out;
 }
-
-/* Титр карусели */
