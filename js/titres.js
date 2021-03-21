@@ -73,6 +73,7 @@ class Titres{
         let baseTitre = document.createElement("div");
         baseTitre.classList.add("titre");
         baseTitre.classList.add(this.type);
+        let innerBase = "";
         // Делаем соответствующий блок
         switch(this.type){
             // Барабан
@@ -81,30 +82,30 @@ class Titres{
                 let processedData = this.processMessageData(data);
                 // Генерация блока
                 baseTitre.classList.add("anim-drum-show");
-                baseTitre.innerHTML = '<div class="wrapper">'+
+                innerBase = '<div class="wrapper">'+
                 `<img class="icon" src="${processedData.icon}">`+
                 '<div class="content">'+
                 `<h2 class="title">${processedData.author}</h2>`+
                 `<p class="text">${processedData.content}</p>`;
-                if(processedData.srcAttachment != "") baseTitre.innerHTML += `<img class="attachment" src="${processedData.srcAttachment}" alt="">`;
-                baseTitre.innerHTML += '</div>'+
-                '</div>';
+                if(processedData.srcAttachment != "") innerBase += `<img class="attachment" src="${processedData.srcAttachment}" alt="">`;
+                baseTitre += '</div></div>';
                 break;
             case "carousel":
                 baseTitre.classList.add("anim-carousel-show");
-                baseTitre.innerHTML = '';
                 for(let message of data){
                     // Конечные данные
                     let processedData = this.processMessageData(message.message);
-                    baseTitre.innerHTML += '<div class="wrapper">'+
+                    innerBase += '<div class="wrapper">'+
                     `<img class="icon" src="${processedData.icon}">`+
                     '<div class="content">'+
                     `<h2 class="title">${processedData.author}</h2>`+
-                    `<p class="text">${processedData.content}</p>`+
-                    '</div>'+
-                    '</div>';
+                    `<p class="text">${processedData.content}</p>`;
+                    if(processedData.srcAttachment != "") innerBase += `<img class="attachment" src="${processedData.srcAttachment}" alt="">`;
+                    innerBase += '</div></div>';
                 }
+                break;
         }
+        baseTitre.innerHTML = innerBase;
         // Возвращаем готовую базу
         return baseTitre;
     }
@@ -132,7 +133,7 @@ class Titres{
         let srcAttachment = "";
         if(data.attachments && data.attachments.length > 0 && data.attachments[0].type == "image"){
             let urlAttachment = data.attachments[0].url;
-            srcAttachment = (url.includes("http")) ? urlAttachment : this.preUrl + data.attachments[0].url;
+            srcAttachment = (urlAttachment.includes("http")) ? urlAttachment : this.preUrl + data.attachments[0].url;
         }
         // Выводим конечные обработанные данные
         return {

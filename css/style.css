@@ -59,6 +59,8 @@ body{
 }
 .titre.drum .content .attachment{
 	border-radius: 16px;
+	max-height: 350px;
+	max-width: 250px;
 }
 
 /* Титр карусели */
@@ -85,6 +87,7 @@ body{
 	color: #FFF;
 	min-width: 200px;
 	max-width: 300px;
+	width: 100%;
 }
 .titre.carousel .content .title{
 	font-size: 22pt;
@@ -96,6 +99,8 @@ body{
 }
 .titre.carousel .content .attachment{
 	border-radius: 16px;
+	max-height: 200px;
+	max-width: 150px;
 }
 
 /* Титр голосования */
