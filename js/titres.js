@@ -1,17 +1,36 @@
 class Titres{
     // Конструктор класса
     constructor(debug = false){
-        // Пользователь, которого мониторим
-        this.user = get("user", "79328532025");
-        // Id последнего полученного сообщения
-        this.lastMessageId = 0;
-        // Время показа сообщения (по умолчанию 10 секунд)
-        this.duration = get("duration", 10000);
+        // Обнуляем всё
+        this.restart(debug);
+    }
+    restart(debug = false){
+        // Очищаем все поля
+        for(let key in this){
+            // Если свойство не функция
+            if(typeof this[key] != "function"){
+                delete this[key];
+            }
+        }
         // Тип титра (по умолчанию барабан)
-        this.type = get("type", "drum");
+        if(this)this.type = get("type", "drum");
+        // Включён ли дэбаг
+        this.debug = debug;
+        // Запускаем инициализацию
+        if(!this.debug) this.init();
+    }
+    initVars(){
         // Свойства для разных типов
         switch(this.type){
             case "drum":
+                // Пользователь, которого мониторим
+                this.user = get("user", "79328532025");
+                // Id последнего полученного сообщения
+                this.lastMessageId = 0;
+                // Время показа сообщения (по умолчанию 10 секунд)
+                this.duration = get("duration", 10000);
+                // Массив сообщений
+                this.messages = [];
                 // ID следующего сообщения
                 this.nextMessageId = 0;
                 // Максимальное кол-во сообщений в барабане
@@ -20,6 +39,14 @@ class Titres{
                 this.theEnd = false;
                 break;
             case "carousel":
+                // Пользователь, которого мониторим
+                this.user = get("user", "79328532025");
+                // Id последнего полученного сообщения
+                this.lastMessageId = 0;
+                // Время показа сообщения (по умолчанию 10 секунд)
+                this.duration = get("duration", 10000);
+                // Массив сообщений
+                this.messages = [];
                 // ID следующего сообщения
                 this.nextMessageId = 0;
                 // Максимальное кол-во сообщений в каруселе
@@ -38,14 +65,11 @@ class Titres{
                 this.downIcon = get("downIcon", "img/whatsapp-brands.png");
                 break;
         }
-        // Включён ли дэбаг
-        this.debug = debug;
-        // Инициализируем объекты
-        this.messages = [];
-        this.init();
     }
     // Иницализация объектов
     init(){
+        // Инициализация тематических переменных
+        this.initVars();
         // Для дебага (и презентации) указываем наглядно подзаголовок титра
         if(this.debug){
             debugLog("Инициализация объектов", "green", "16pt");
@@ -70,7 +94,7 @@ class Titres{
             debugLog(`Текущий титр: ${nameType}`, "yellow", "16pt");
             document.getElementById("subtitle").textContent = nameType;
         } else {
-            document.getElementById("subtitle").remove();
+            try{document.getElementById("subtitle").remove();}catch{}
         }
         // Запускаем цикл обновления для карусели и барабана
         switch(this.type){
@@ -78,6 +102,7 @@ class Titres{
             case "carousel":
                 this.lifeInterval = setInterval(() => {this.update()}, parseInt(this.duration));
                 this.load();
+                this.draw();
                 break;
             case "simple":
                 this.draw();
@@ -202,7 +227,7 @@ class Titres{
             // Если дата не пришла, выкидываем нас
             if(data == null || data.messagesList == null) return;
             if(this.debug) debugLog(`Получено ${data.messagesList.length} сообщений`, "pink");
-            console.log(data);
+            if(this.debug) console.log(data);
             let newMessages = [];
             // Добавляем сообщения в общий массив
             for(let message of data.messagesList){

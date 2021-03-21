@@ -3,6 +3,7 @@ var socialIcons = {
     whatsapp: "img/whatsapp.png",
     youtube: "img/youtube.png",
     vk: "img/vk.png",
+    vkcomm: "img/vk.png",
     viber: "img/viber.png",
     twitter: "img/twitter.png",
     telegram: "img/telegram.png",

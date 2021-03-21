@@ -17,6 +17,32 @@ body{
 	font-size: 32pt;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
 }
+#settings{
+	display: flex;
+	flex-direction: column;
+	padding: 16px;
+	position: absolute;
+	right: 16px;
+}
+#settings label{
+	margin-bottom: 4px;
+}
+#settings input, #settings select{
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	padding: 10px 16px;
+	margin-bottom: 8px;
+}
+#settings button{
+	border: 0;
+	background-color: #ddd;
+	border-radius: 8px;
+	padding: 10px 16px;
+	margin-bottom: 8px;
+	cursor: pointer;
+	color: #333;
+	outline: 0;
+}
 
 /* Титр */
 .titre{
