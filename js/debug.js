@@ -1,5 +1,6 @@
 // Создаём нужный титр
 var titre = new Titres(true);
+titre.initVars();
 // Иницализируем окно дэбага
 function initDebugWindow(){
     // Если включён режим дэбага
@@ -9,7 +10,7 @@ function initDebugWindow(){
         // Перебираем все свойства титров и создаём поля
         for(let key in titre){
             // Если свойство не функция
-            if(typeof titre[key] != "function" && key != "debug" && key != "theEnd" && key != "messages"){
+            if(typeof titre[key] != "function" && key != "debug" && key != "theEnd" && key != "messages" && key != "lifeInterval"){
                 if(key != "type"){
                     // Создаём поле для редакции свойства
                     let field = document.createElement("input");
@@ -39,19 +40,25 @@ function initDebugWindow(){
                 }
             }
         }
-        // Добавляем кнопку для запуска и сохранения настроек
-        let buttonSave = document.createElement("button");
-        buttonSave.textContent = "Сохранить параметры";
+        function stopTitre(){
+            titre.restart(true);
+            debugLog("Титр остановлен", "red", "16pt");
+        }
         function saveParams(restart = false){
+            titre.initVars();
             let newOptions = {};
             // Перебираем все свойства титров
             for(let key in titre){
                 // Если свойство не функция
-                if(typeof titre[key] != "function" && key != "debug" && key != "theEnd" && key != "messages"){
+                if(typeof titre[key] != "function" && key != "debug" && key != "theEnd" && key != "messages" && key != "lifeInterval"){
                     try{
                         // Сохраняем значение из исходных (если не пустое)
-                        if(document.getElementById(key+"_field").value != "") {
-                            newOptions[key] = document.getElementById(key+"_field").value;
+                        if(document.getElementById(key+"_field").value != "" || (titre[key] != document.getElementById(key+"_field").placeholder && titre[key] != null)) {
+                            if(document.getElementById(key+"_field").value != ""){
+                                newOptions[key] = document.getElementById(key+"_field").value;
+                            } else {
+                                newOptions[key] = document.getElementById(key+"_field").placeholder;
+                            }
                             debugLog(`${key} = ${newOptions[key]}`, "pink", "12pt");
                         }
                     }catch{}
@@ -67,7 +74,11 @@ function initDebugWindow(){
             }
             // Перезапуск панели дэбага
             if(restart) initDebugWindow();
+            return newOptions;
         }
+        // Добавляем кнопку для запуска и сохранения настроек
+        let buttonSave = document.createElement("button");
+        buttonSave.textContent = "Сохранить параметры";
         buttonSave.onclick = () => {saveParams(true);};
         document.getElementById("settings").appendChild(buttonSave);
         // Добавляем кнопку для запуска и сохранения настроек
@@ -75,25 +86,25 @@ function initDebugWindow(){
         buttonStart.textContent = "Запустить титр";
         buttonStart.onclick = function(){
             saveParams();
-            titre.init();
+            if(!titre.isStarted) titre.init();
         }
         document.getElementById("settings").appendChild(buttonStart);
+        // Добавляем кнопку для запуска и сохранения настроек
+        let buttonStop = document.createElement("button");
+        buttonStop.textContent = "Остановить титр";
+        buttonStop.onclick = stopTitre;
+        document.getElementById("settings").appendChild(buttonStop);
         // Добавляем кнопку для открытия рабочей версии титра
         let buttonOpen = document.createElement("button");
         buttonOpen.textContent = "В новой вкладке";
         buttonOpen.onclick = function(){
-            saveParams();
+            let options = saveParams();
             let params = "";
-            for(let key in titre){
-                // Если свойство не функция
-                if(typeof titre[key] != "function" && key != "debug" && key != "theEnd" && key != "messages"){
-                    // Создаём поле для редакции свойства
-                    try{ 
-                        if(document.getElementById(key+"_field").value != "" || key == "type"){
-                            params += key+"="+titre[key]+"&"; 
-                        }
-                    }catch{}
-                }
+            for(let key in options){
+                // Создаём поле для редакции свойства
+                try{ 
+                    params += key+"="+options[key]+"&"; 
+                }catch{}
             }
             // Обрезаем лишний символ
             params = params.substring(0, params.length-1);

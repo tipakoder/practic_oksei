@@ -1,6 +1,8 @@
 class Titres{
     // Конструктор класса
     constructor(debug = false){
+        // Не запущен
+        this.isStarted = false;
         // Обнуляем всё
         this.restart(debug);
     }
@@ -13,11 +15,20 @@ class Titres{
             }
         }
         // Тип титра (по умолчанию барабан)
-        if(this)this.type = get("type", "drum");
+        this.type = get("type", "drum");
         // Включён ли дэбаг
         this.debug = debug;
+        // Очищаем интервал
+        clearInterval(this.lifeInterval);
         // Запускаем инициализацию
-        if(!this.debug) this.init();
+        if(!this.debug) {
+            // Инициализация тематических переменных
+            this.initVars();
+            // Иницализаця воспроизведения
+            this.init();
+            // Запущен
+            this.isStarted = true;
+        }
     }
     initVars(){
         // Свойства для разных типов
@@ -68,11 +79,9 @@ class Titres{
     }
     // Иницализация объектов
     init(){
-        // Инициализация тематических переменных
-        this.initVars();
         // Для дебага (и презентации) указываем наглядно подзаголовок титра
         if(this.debug){
-            debugLog("Инициализация объектов", "green", "16pt");
+            debugLog("Запуск титра", "green", "16pt");
             let nameType = "";
             switch(this.type){
                 case "drum":
