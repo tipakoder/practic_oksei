@@ -88,7 +88,7 @@ class Titres{
                 `<h2 class="title">${processedData.author}</h2>`+
                 `<p class="text">${processedData.content}</p>`;
                 if(processedData.srcAttachment != "") innerBase += `<img class="attachment" src="${processedData.srcAttachment}" alt="">`;
-                baseTitre += '</div></div>';
+                innerBase += '</div></div>';
                 break;
             case "carousel":
                 baseTitre.classList.add("anim-carousel-show");
