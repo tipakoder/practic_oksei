@@ -109,9 +109,8 @@ class Titres{
         switch(this.type){
             case "drum":
             case "carousel":
-                this.lifeInterval = setInterval(() => {this.update()}, parseInt(this.duration));
                 this.load();
-                this.draw();
+                this.lifeInterval = setInterval(() => {this.update()}, parseInt(this.duration));
                 break;
             case "simple":
                 this.draw();
@@ -233,6 +232,7 @@ class Titres{
                 return null;
             }
         }).then((data) => {
+            console.log(data)
             // Если дата не пришла, выкидываем нас
             if(data == null || data.messagesList == null) return;
             if(this.debug) debugLog(`Получено ${data.messagesList.length} сообщений`, "pink");
@@ -260,6 +260,8 @@ class Titres{
                 // Запоминаем индекс последнего полученного сообщения
                 this.lastMessageId = newMessages[0].id;
                 if(this.debug) debugLog(`Добавлено ${newMessages.length} сообщений`, "green");
+                // Если есть функция todo - делаем
+                this.draw();
             }
         }).catch((error) => {
             if(this.debug && error == null) debugLog("Неверный ответ от сервера", "red");
@@ -308,7 +310,7 @@ class Titres{
                     document.getElementById("titreBody").appendChild(newBlock);
                     // След. сообщение
                     this.getNextMessageId();
-                }, 2000);
+                }, 1200);
                 break;
             case "simple":
                 let newBlock = this.createBlock(1);

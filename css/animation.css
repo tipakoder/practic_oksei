@@ -85,13 +85,13 @@
 .anim-drum-hide .icon { animation: drum-hide 1s; opacity: 0; }
 
 /* Анимации для карусели */
-.anim-carousel-show .wrapper { animation: opacity-showup 0.4s; }
+.anim-carousel-show .wrapper { animation: opacity-showup 1.2s; }
 /* .anim-carousel-show .wrapper:nth-child(2) { animation: opacity-showup 0.8s; }
 .anim-carousel-show .wrapper:nth-child(3) { animation: opacity-showup 1.2s; }
 .anim-carousel-show .wrapper:nth-child(4) { animation: opacity-showup 1.6s; }
-.anim-carousel-show .wrapper:nth-child(5) { animation: opacity-showup 2s; }
-.anim-carousel-hide .wrapper:nth-child(1) { animation: opacity-fadeup 0.4s; opacity: 0; }
-.anim-carousel-hide .wrapper:nth-child(2) { animation: opacity-fadeup 0.8s; opacity: 0; }
+.anim-carousel-show .wrapper:nth-child(5) { animation: opacity-showup 2s; } */
+.anim-carousel-hide .wrapper { animation: opacity-fadeup 1.2s; opacity: 0; }
+/* .anim-carousel-hide .wrapper:nth-child(2) { animation: opacity-fadeup 0.8s; opacity: 0; }
 .anim-carousel-hide .wrapper:nth-child(3) { animation: opacity-fadeup 1.2s; opacity: 0; }
 .anim-carousel-hide .wrapper:nth-child(4) { animation: opacity-fadeup 1.6s; opacity: 0; }
 .anim-carousel-hide .wrapper:nth-child(5) { animation: opacity-fadeup 2s; opacity: 0; } */
