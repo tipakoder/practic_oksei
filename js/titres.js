@@ -32,7 +32,7 @@ class Titres{
     }
     initVars(){
         // Адрес для локальных картинок
-        this.preUrl = get("preUrl", "http://megapolis.iactive.pro");
+        this.preUrl = get("preUrl", "http://megapolis.iactive.pro/");
         // Откуда получаем титр (левый, правый, оба)
         this.from = get("from", "0");
         // Настройка тени карточки
@@ -241,7 +241,8 @@ class Titres{
         if(data.image && data.image !== "" && data.image.includes("http")){
             icon = data.image; // Присваиваем картинку с другого сервера
         } else if(!data.image.includes("http")) {
-            icon = this.preUrl.data.image; // Добавляем к картинке локальный адрес
+            // icon = this.preUrl + data.image; // Добавляем к картинке локальный адрес
+            icon = socialIcons[data.channel];
         } else {
             icon = socialIcons[data.channel]; // Добавляем картинку соц. сети
         }
@@ -265,6 +266,7 @@ class Titres{
     update(){
         if(this.debug) debugLog("Обновленение");
         this.load();
+        this.draw();
     }
     // Загрузка свежих сообщений
     load(){
