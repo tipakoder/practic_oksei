@@ -274,7 +274,7 @@ class Titres{
         switch(this.type){
             case "drum":
                 // Если сообщений меньше, чем нужно, не отрисовываем
-                if(this.maxCountMessages > this.messages.length || this.messages.length == 0){
+                if(this.messages.length == 0){
                     this.clearDraw();
                     return;
                 }
