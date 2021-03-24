@@ -25,7 +25,7 @@ function initDebugWindow(){
                     // Создаём поле для редакции свойства
                     let field = document.createElement("select");
                     field.id = key+"_field";
-                    for(let type of ["drum", "carousel", "simple"]){
+                    for(let type of ["drum", "carousel", "simple", "presentation"]){
                         let option = document.createElement("option");
                         option.value = type;
                         option.textContent = type;

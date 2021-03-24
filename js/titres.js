@@ -31,6 +31,20 @@ class Titres{
         }
     }
     initVars(){
+        // Адрес для локальных картинок
+        this.preUrl = get("preUrl", "http://megapolis.iactive.pro");
+        // Откуда получаем титр (левый, правый, оба)
+        this.from = get("from", "0");
+        // Настройка тени карточки
+        this.styleShadow = get("shadow", "none");
+        // Настройка рамки карточки
+        this.styleBorder = get("border", "0");
+        // Настройка заднего фона карточки
+        this.styleCardBg = get("cardBg", "#2D3F53");
+        // Цвет имени
+        this.styleColorName = get("nameColor", "#EC4F6E");
+        // Цвет текста
+        this.styleColorText = get("textColor", "#FFFFFF");
         // Свойства для разных типов
         switch(this.type){
             case "drum":
@@ -75,6 +89,26 @@ class Titres{
                 // Иконка снизу
                 this.downIcon = get("downIcon", "img/whatsapp-brands.png");
                 break;
+            case "presentation":
+                // Пользователь, которого мониторим
+                this.user = get("user", "79328532025");
+                // Id последнего полученного сообщения
+                this.lastMessageId = 0;
+                // Время показа сообщения (по умолчанию 10 секунд)
+                this.duration = get("duration", 10000);
+                // Массив сообщений
+                this.messages = [];
+                // Отступ справа
+                this.styleRight = get("right", "0px");
+                // Отступ снизу
+                this.styleBottom = get("bottom", "0px");
+                // Расположение на экране
+                this.position = get("position", "left");
+                // Максимальное кол-во сообщений в каруселе
+                this.maxCountMessages = get("maxCountMessages", 10);
+                // ID следующего сообщения
+                this.nextMessageId = 0;
+                break;
         }
     }
     // Иницализация объектов
@@ -99,6 +133,9 @@ class Titres{
                 case "simple":
                     nameType = "Одиночный титр";
                     break;
+                case "presentation":
+                    nameType = "Презентация";
+                    break;
             }
             debugLog(`Текущий титр: ${nameType}`, "yellow", "16pt");
             document.getElementById("subtitle").textContent = nameType;
@@ -109,6 +146,7 @@ class Titres{
         switch(this.type){
             case "drum":
             case "carousel":
+            case "presentation":
                 this.load();
                 this.lifeInterval = setInterval(() => {this.update()}, parseInt(this.duration));
                 break;
@@ -135,9 +173,9 @@ class Titres{
                 baseTitre.classList.add("anim-drum-show");
                 innerBase = '<div class="wrapper">'+
                 `<img class="icon" src="${processedData.icon}">`+
-                '<div class="content">'+
-                `<h2 class="title">${processedData.author}</h2>`+
-                `<p class="text">${processedData.content}</p>`;
+                `<div class="content" style="background-color: ${this.styleCardBg}; border: ${this.styleBorder}; box-shadow: ${this.styleShadow};">`+
+                `<h2 class="title" style="color: ${this.styleColorName}">${processedData.author}</h2>`+
+                `<p class="text" style="color: ${this.styleColorText}">${processedData.content}</p>`;
                 if(processedData.srcAttachment != "") innerBase += `<img class="attachment" src="${processedData.srcAttachment}" alt="">`;
                 innerBase += '</div></div>';
                 break;
@@ -148,9 +186,9 @@ class Titres{
                     let processedData = this.processMessageData(message.message);
                     innerBase += '<div class="wrapper">'+
                     `<img class="icon" src="${processedData.icon}">`+
-                    '<div class="content">'+
-                    `<h2 class="title">${processedData.author}</h2>`+
-                    `<p class="text">${processedData.content}</p>`;
+                    `<div class="content" style="background-color: ${this.styleCardBg}; border: ${this.styleBorder}; box-shadow: ${this.styleShadow};">`+
+                    `<h2 class="title" style="color: ${this.styleColorName}">${processedData.author}</h2>`+
+                    `<p class="text" style="color: ${this.styleColorText}">${processedData.content}</p>`;
                     if(processedData.srcAttachment != "") innerBase += `<img class="attachment" src="${processedData.srcAttachment}" alt="">`;
                     innerBase += '</div></div>';
                 }
@@ -158,14 +196,26 @@ class Titres{
             case "simple":
                 baseTitre.classList.add("anim-simple-show");
                 innerBase = `<div class="wrapper">
-                    <div class="line anim-delay-opacity-showup">
-                        <p class="title">${this.topText}</p>
+                    <div class="line anim-delay-opacity-showup" style="background-color: ${this.styleCardBg}; border: ${this.styleBorder}; box-shadow: ${this.styleShadow};">
+                        <p class="title" style="color: ${this.styleColorText}">${this.topText}</p>
                     </div>
                     <div class="line focus">
                         <img src="${this.downIcon}" class="icon">
-                        <p class="text">${this.downText}</p>
+                        <p class="text" style="color: ${this.styleColorText}">${this.downText}</p>
                     </div>
                 </div>`;
+                break;
+            case "presentation":
+                let processedData1 = this.processMessageData(data);
+                baseTitre.style.bottom = this.styleBottom+"px";
+                baseTitre.style.right = this.styleRight+"px";
+                '<div class="wrapper">'+
+                `<img class="icon" src="${processedData1.icon}">`+
+                `<div class="content" style="background-color: ${this.styleCardBg}; border: ${this.styleBorder}; box-shadow: ${this.styleShadow};">`+
+                `<h2 class="title" style="color: ${this.styleColorName}">${processedData1.author}</h2>`+
+                `<p class="text" style="color: ${this.styleColorText}">${processedData1.content}</p>`;
+                if(processedData1.srcAttachment != "") innerBase += `<img class="attachment" src="${processedData1.srcAttachment}" alt="">`;
+                innerBase += '</div></div>';
                 break;
         }
         baseTitre.innerHTML = innerBase;
@@ -190,8 +240,10 @@ class Titres{
         let icon = "";
         if(data.image && data.image !== "" && data.image.includes("http")){
             icon = data.image; // Присваиваем картинку с другого сервера
+        } else if(!data.image.includes("http")) {
+            icon = this.preUrl.data.image; // Добавляем к картинке локальный адрес
         } else {
-            icon = socialIcons[data.channel];
+            icon = socialIcons[data.channel]; // Добавляем картинку соц. сети
         }
         // Обработка вложений
         let srcAttachment = "";
@@ -213,7 +265,6 @@ class Titres{
     update(){
         if(this.debug) debugLog("Обновленение");
         this.load();
-        this.draw();
     }
     // Загрузка свежих сообщений
     load(){
@@ -224,7 +275,7 @@ class Titres{
             this.theEnd = false;
         }
 
-        fetch(`http://api.stream.iactive.pro/titreInfo?user=${this.user}&from=${this.lastMessageId}&type=1`, {}).then(async(res) => {
+        fetch(`http://api.stream.iactive.pro/titreInfo?user=${this.user}&from=${this.lastMessageId}&type=${this.from}`, {}).then(async(res) => {
             try{
                 let dataRes = await res.json();
                 return dataRes;
@@ -317,6 +368,16 @@ class Titres{
                 document.getElementById("titreBody").innerHTML = "";
                 document.getElementById("titreBody").appendChild(newBlock);
                 break;
+            case "presentation":
+                console.log(this.messages[this.nextMessageId]);
+                if(this.messages[this.nextMessageId] != undefined){
+                    let nextMessage = this.messages[this.nextMessageId];
+                    let newBlock = this.createBlock(nextMessage);
+                    document.getElementById("titreBody").appendChild(newBlock);
+                    // След. сообщение
+                    this.getNextMessageId();
+                }
+                break;
         }
     }
     // ID следующего сообщения
@@ -339,6 +400,9 @@ class Titres{
                     this.theEnd = true;
                     this.nextMessageId = 0;
                 }
+                break;
+            case "presentation":
+                this.nextMessageId ++;
                 break;
         }
     }
