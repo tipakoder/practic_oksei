@@ -1,0 +1,28 @@
+@keyframes show-left{
+    0%{transform: translateX(-100%); opacity: 0;}
+	50%{transform: translateX(-35%); opacity: 0;}
+	100%{transform: translateX(0); opacity: 1;}
+}
+
+@keyframes show-up {
+    0%{opacity: 0; height: 0%;}
+    100%{opacity: 1; height: 85%;}
+}
+
+@keyframes width-show{
+	0%{ transform: scaleX(0); opacity: 0; }
+	100%{ transform: scaleX(100%); opacity: 1; }
+}
+
+@keyframes number-left{
+    0%{transform: translateX(-100%); opacity: 0;}
+	50%{transform: translateX(-15%); opacity: 0;}
+	100%{transform: translateX(0); opacity: 1;}
+}
+
+@keyframes text-left{
+    0%{transform: translateX(-100%); opacity: 0;}
+	50%{transform: translateX(-55%); opacity: 0;}
+	100%{transform: translateX(0); opacity: 1;}
+}
+
