@@ -1,7 +1,13 @@
 @keyframes show-left{
     0%{transform: translateX(-100%); opacity: 0;}
-	50%{transform: translateX(-35%); opacity: 0;}
+	50%{transform: translateX(-25%); opacity: 0;}
 	100%{transform: translateX(0); opacity: 1;}
+}
+
+@keyframes show-hide{
+    0%{transform: translateX(0); opacity: 1;}
+	50%{transform: translateX(-15%); opacity: 0;}
+	100%{transform: translateX(-100%); opacity: 0;}
 }
 
 @keyframes show-up {
@@ -12,6 +18,11 @@
 @keyframes width-show{
 	0%{ transform: scaleX(0); opacity: 0; }
 	100%{ transform: scaleX(100%); opacity: 1; }
+}
+
+@keyframes width-hide{
+	0%{ transform: scaleX(100%); opacity: 1; }
+	100%{ transform: scaleX(0); opacity: 0; }
 }
 
 @keyframes number-left{
@@ -25,4 +36,11 @@
 	50%{transform: translateX(-55%); opacity: 0;}
 	100%{transform: translateX(0); opacity: 1;}
 }
+
+@keyframes show-up{
+	0%{transform: translateY(100%); opacity: 0;}
+	50%{transform: translateY(25%); opacity: 0;}
+	100%{transform: translateY(0); opacity: 1;}
+}
+
 
