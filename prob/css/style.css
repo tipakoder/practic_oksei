@@ -158,6 +158,10 @@ body{
     margin-bottom: 40px;
 }
 
+.message.hide{
+	animation: show-hide 1.2s;
+}
+
 .message img{
     width: 125px;
     height: 125px;
