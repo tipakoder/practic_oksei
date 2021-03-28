@@ -21,7 +21,7 @@ function get(name, def = false){ // получение параметров get
     else return def;
 }
 
-
+// Основной класс
 class VoteTitre{
 	// Конструктор
 	constructor(debug = false){
