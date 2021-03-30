@@ -125,30 +125,60 @@ class VoteTitre{
 			});
 		}
 	}
+	// Рисуем нужный блок
+	draw(){
+		// Если показ сообщений начат
+		if(this.started){
+			// Если сообщений меньше, чем нужно, не отрисовываем
+			if(this.messages.length == 0){
+				this.clearDraw();
+				return;
+			}
+			// Следующий ID
+			if(document.getElementById("titreBody").querySelector(".titre.drum")){
+				document.getElementById("titreBody").querySelector(".titre.drum").classList.remove("anim-drum-show");
+				document.getElementById("titreBody").querySelector(".titre.drum").classList.add("anim-drum-hide");
+			}
+			setTimeout(() => {
+				let nextMessage = this.messages[this.nextMessageId].message;
+				this.createMessage(nextMessage);
+				// След. сообщение
+				 // Если ID следующего сообщеняи не найден, назначим его на первое
+                if(this.nextMessageId+1 < this.messages.length){
+                    this.nextMessageId++;
+                } else {
+                    this.theEnd = true;
+                    this.nextMessageId = 0;
+                }
+
+			}, 1000);
+
+		}	
+	}
 	// Создаём блок
 	createBlock(){
 		// Создаём и настраиваем блок
 		let baseTable = document.createElement("div");
 		baseTable.className = "jamming-show";
 		baseTable.id = "jam";
-		baseTable.innerHTML = `<h1 class="left-show">${Number(this.memberIndex++)}</h1>
+		baseTable.innerHTML = `<h1 class="left-show">${parseInt(this.memberIndex)+1}</h1>
             <p class="p-left-show">${this.members[this.memberIndex].name}</p>`;
 		// Вставляем табличку с именем участника
 		document.querySelector(".all-block").prepend(baseTable);
 		// Биндим созданее сообщение через 7 секунд после старта первой анимации
 		setTimeout( () => {document.querySelector(".left-show").className = "left-hide";}, 6000 );
 		setTimeout( () => {document.querySelector(".p-left-show").className = "p-left-hide";}, 6500 );
-		setTimeout( () => {this.createMessage();}, 7000 );
-		this.started = true;
+		setTimeout( () => {this.started = true;}, 7000 );
 	}
 	// Создаём сообщение
-	createMessage(){
+	createMessage(data){
+		let processedData = this.processMessageData(data);
 		let jam = document.getElementById("jam");
 		jam.innerHTML = `
-		<img src="img/a.png">
+		<img src="${processedData.icon}">
 		<div class="message-info">
-		<h1>Арина Л.</h1>
-		<p>Желаю всем конскурсантам победы, в первую очередь - над собой!</p>
+		<h1>${processedData.author}</h1>
+		<p>${processedData.content}</p>
 		</div>
 		`;
 		jam.className = "message";
@@ -157,6 +187,47 @@ class VoteTitre{
 			setTimeout(()=>{jam.innerHTML = "";}, 1200);
 		}, 5000);
 	}
+	// Обработка полученных данных
+    processMessageData(data){
+        // Обработка времени нового сообщения
+        let date = new Date(data.date);
+        let offset = ((date.getTimezoneOffset() / 60) + 2) * 60;
+        date.setTime(date.getTime() - offset * 60 * 1000);
+        // Обработка контента
+        let content = data.content;
+        content = content.replace(/(<([^>]+)>)/ig, ""); // Срезаем спец символы
+        content = content.replace(/&(.+?);/ig, ""); // Срезаем html теги и спец символы
+        // Обработка автора
+        let author = (data.author) ? data.author : data.senderNumber; // Если у автора нет имени, оно заменяется номером
+        if(author[0] === "+") author = author.substr(1); // Если имя автора включает первый +, срезаем его
+        // if(parseInt(author)) author = hideNumber(author); НЕПОНЯТНАЯ ИСХОДНАЯ СТРОКА
+        // Обработка иконки
+        let icon = "";
+        if(data.image && data.image !== "" && data.image.includes("http")){
+            icon = data.image; // Присваиваем картинку с другого сервера
+        } else if(!data.image.includes("http")) {
+            // icon = this.preUrl + data.image; // Добавляем к картинке локальный адрес
+            icon = socialIcons[data.channel];
+        } else {
+            icon = socialIcons[data.channel]; // Добавляем картинку соц. сети
+        }
+        // Обработка вложений
+        let srcAttachment = "";
+        if(data.attachments && data.attachments.length > 0 && data.attachments[0].type == "image"){
+            let urlAttachment = data.attachments[0].url;
+            srcAttachment = (urlAttachment.includes("http")) ? urlAttachment : this.preUrl + data.attachments[0].url;
+        }
+        // Выводим конечные обработанные данные
+        return {
+            date: date,
+            content: content,
+            author: author,
+            icon: icon,
+            srcAttachment: srcAttachment,
+            channel: data.channel,
+        };
+    }
+
 }
 
 
