@@ -146,9 +146,14 @@ class VoteTitre{
 		console.log(this.started)
 		console.log(this.showing)
 		// Если показ сообщений начат
+<<<<<<< HEAD
 		if(this.started && !this.showing){
 			// Включаем индиктор показа
 			this.showing = true;
+=======
+		if(this.started){
+			
+>>>>>>> dfb4af345bbfa9416518cbfc12debdfabbcf16cf
 			// Если сообщений меньше, чем нужно, не отрисовываем
 			if(this.messages.length == 0){
 				//this.clearDraw();
@@ -180,9 +185,15 @@ class VoteTitre{
 		// Биндим созданее сообщение через 7 секунд после старта первой анимации
 		setTimeout( () => {document.querySelector(".left-show").className = "left-hide";}, 6000 );
 		setTimeout( () => {document.querySelector(".p-left-show").className = "p-left-hide";}, 6500 );
-		setTimeout( () => {this.started = true;}, 7000 );
+		setTimeout( () => {
+			// Отображаем тестовое сообщение
+			this.createMessage();
+			// Запускаем показ сообщений 
+			this.started = true;
+		}, 7000 );
 	}
 	// Создаём сообщение
+<<<<<<< HEAD
 	createMessage(data){
 		console.log(data)
 		let processedData = this.processMessageData(data);
@@ -202,6 +213,39 @@ class VoteTitre{
 				this.showing = false;
 			}, 1200);
 		}, 5000);
+=======
+	createMessage(data = null){
+		//if(this.debug == false){
+		//	let processedData = this.processMessageData(data);
+		//	let jam = document.getElementById("jam");
+		//	jam.innerHTML = `
+		//	<img src="${processedData.icon}">
+		//	<div class="message-info">
+		//	<h1>${processedData.author}</h1>
+		//	<p>${processedData.content}</p>
+		//	</div>
+		//	`;
+		//	jam.className = "message";
+		//	setTimeout(()=>{
+		//		jam.classList.add("hide");
+		//		setTimeout(()=>{jam.innerHTML = "";}, 1200);
+		//	}, 5000);
+		//} else {
+			let jam = document.getElementById("jam");
+			jam.innerHTML = `
+			<img src="img/a.png">
+			<div class="message-info">
+			<h1>Алина Л.</h1>
+			<p>Хочу пожелать успеха всем участникам, а главное - победы нам самим собой</p>
+			</div>
+			`;
+			jam.className = "message";
+			setTimeout(()=>{
+				jam.classList.add("hide");
+				setTimeout(()=>{jam.innerHTML = "";}, 1200);
+			}, 5000);
+		//}
+>>>>>>> dfb4af345bbfa9416518cbfc12debdfabbcf16cf
 	}
 	// Обработка полученных данных
     processMessageData(data){

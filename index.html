@@ -1,46 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
-    <title>Титры</title>
-    <link rel="stylesheet" href="css/animation.css">
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        *{margin: 0; padding: 0;}
-        body{
-            display: flex; 
-            align-items: center;
-            justify-content: center;
-            margin: 0;
-            min-height: 100vh;
-        }
-        .framewin{
-            border: 4px solid #eee;
-            height: 900px;
-            width: 900px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    </style>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Проекты</title>
+	<style>
+	#wrapper{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+	}
+	a{
+		margin: 16px;
+		text-align: center;
+		max-width: 300px;
+		display: block;
+		text-decoration: none;
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+		font-size: 28pt;
+		color: #000;
+		padding: 16px;
+		border-radius: 16px;
+		background-color: #eee;
+	}
+	</style>
 </head>
 <body>
-    <!-- Тело презентации -->
-    <div class="framewin">
-        <!-- Тело титра -->
-        <div id="titreBody"></div>
-        <!-- Подзаголовок для презентации -->
-        <div id="subtitle"></div>
-    </div>
-    <!-- Настройка GET параметров -->
-    <div id="settings"></div>
-    <!-- Подключаем скрипты -->
-    <script src="js/requirements.js"></script>
-    <script src="js/titres.js"></script>
-    <script src="js/debug.js"></script>
+	<div id="wrapper">
+		<a href="/debug.html">Титры</a>
+		<a href="/prob/">Голосование <b>(недоделаны)</b></a>
+	</div>
 </body>
 </html>
