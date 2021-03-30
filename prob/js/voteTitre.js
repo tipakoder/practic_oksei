@@ -27,6 +27,22 @@ class VoteTitre{
 	constructor(debug = false){
 		// Включён ли дэбаг
 		this.debug = debug;
+		// Адрес для локальных картинок
+        this.preUrl = get("preUrl", "http://megapolis.iactive.pro/");
+        // Откуда получаем титр (левый, правый, оба)
+        this.from = get("from", "0");
+        // Настройка тени карточки
+        this.styleShadow = get("shadow", "none");
+        // Настройка рамки карточки
+        this.styleBorder = get("border", "0");
+        // Настройка заднего фона карточки
+        this.styleCardBg = get("cardBg", "#2D3F53");
+        // Цвет имени
+        this.styleColorName = get("nameColor", "#EC4F6E");
+        // Цвет текста
+        this.styleColorText = get("textColor", "#FFFFFF");
+		// Цвет заднего фона
+        this.styleBackgroundColor = get("backgroundColor", "rgba(0,0,0,0)");
 		// Номер, который отслеживаем
 		this.user = get("user", "79328532025");
 		// Массив сообщений
@@ -42,9 +58,11 @@ class VoteTitre{
 		// Какой из титров подгружать (левый, правый)
 		this.from = get("from", "0");
 		// Индекс отслеживаемой цели (номер от 0 до кол-ва вариантов голосования - 1)
-		this.memberIndex = get("memberIndex", "0");
+		this.memberIndex = parseInt(get("memberIndex", "0"))+1;
 		// Начался ли показ титра
 		this.started = false;
+		// Показывается ли титр
+		this.showing = false;
 		// Запускаем
 		if(!this.debug) this.launch();
 	}
@@ -58,6 +76,8 @@ class VoteTitre{
 	// Обновление каждый неопределённый раз
 	update(){
 		this.load();
+		// Если есть очередь на отрисовку
+		if(this.messages.length > 0) this.draw();
 	}
 	// Берём с сервера информацию о текущем голосовании
 	load(){
@@ -81,10 +101,10 @@ class VoteTitre{
 
 		// Получаем новые сообщения
 		if(this.showComments == "true"){
-			fetch(`http://stream.iactive.pro/scr/messagesGetter.php?user=${this.user}&from=${this.from}`, {}).then(async(res) => {
+			fetch(`http://api.stream.iactive.pro/titreInfo?user=${this.user}&from=${this.lastMessageId}&type=${this.from}`, {}).then(async(res) => {
 				try{
-					let result = await res.json();
-					return result;
+					let dataRes = await res.json();
+					return dataRes;
 				}catch(e){
 					return null;
 				}
@@ -101,68 +121,60 @@ class VoteTitre{
 						data.deletedMessagesIdList.indexOf(message.id) === -1 &&
 						this.messages.findIndex(elm => elm.message.author == message.message.author) === -1
 					){ 
-						if(newMessages.length < this.maxCountMessages){
-							newMessages.push(message); 
-						}
+						newMessages.push(message); 
 					}
 				}
-				// Если у нас пришли новые сообщения, то старые удаляем
-				if(newMessages.length > 0 && this.messages.length >= this.maxCountMessages && this.theEnd){
-					this.messages = this.messages.splice(this.messages.length-newMessages.length, newMessages.length);
-				}
+				console.log(newMessages)
 				if(newMessages.length > 0){
 					for(let message of newMessages){
-						this.messages.push(message);
+						this.messages.unshift(message);
 					}
 					// Запоминаем индекс последнего полученного сообщения
 					this.lastMessageId = newMessages[0].id;
 					if(this.debug) console.log(`Добавлено ${newMessages.length} сообщений`);
-					// Если есть функция todo - делаем
+					// Отрисовываем титр
 					this.draw();
 				}
 			}).catch((error) => {
-				consolg.log(error);
+				if(this.debug && error == null) console.log("Неверный ответ от сервера");
+				else if(this.debug) console.log(error);
 			});
 		}
 	}
 	// Рисуем нужный блок
 	draw(){
+		console.log(this.started)
+		console.log(this.showing)
 		// Если показ сообщений начат
-		if(this.started){
+		if(this.started && !this.showing){
+			// Включаем индиктор показа
+			this.showing = true;
 			// Если сообщений меньше, чем нужно, не отрисовываем
 			if(this.messages.length == 0){
-				this.clearDraw();
+				//this.clearDraw();
 				return;
 			}
-			// Следующий ID
-			if(document.getElementById("titreBody").querySelector(".titre.drum")){
-				document.getElementById("titreBody").querySelector(".titre.drum").classList.remove("anim-drum-show");
-				document.getElementById("titreBody").querySelector(".titre.drum").classList.add("anim-drum-hide");
+			let nextMessage = this.messages[this.nextMessageId].message;
+			console.log(nextMessage);
+			this.createMessage(nextMessage);
+			// Отмеряем новый ID сообщения
+			if(this.nextMessageId+1 < this.messages.length){
+				this.nextMessageId++;
+			} else {
+				this.messages = [];
 			}
-			setTimeout(() => {
-				let nextMessage = this.messages[this.nextMessageId].message;
-				this.createMessage(nextMessage);
-				// След. сообщение
-				 // Если ID следующего сообщеняи не найден, назначим его на первое
-                if(this.nextMessageId+1 < this.messages.length){
-                    this.nextMessageId++;
-                } else {
-                    this.theEnd = true;
-                    this.nextMessageId = 0;
-                }
-
-			}, 1000);
-
 		}	
 	}
 	// Создаём блок
 	createBlock(){
+		// Если уже есть блок, пропускаем этап создания
+		if(document.getElementById("jam")) return;
 		// Создаём и настраиваем блок
 		let baseTable = document.createElement("div");
 		baseTable.className = "jamming-show";
 		baseTable.id = "jam";
-		baseTable.innerHTML = `<h1 class="left-show">${parseInt(this.memberIndex)+1}</h1>
-            <p class="p-left-show">${this.members[this.memberIndex].name}</p>`;
+		baseTable.innerHTML = `<h1 class="left-show">${this.memberIndex}</h1>
+            <p class="p-left-show">${this.members[this.memberIndex-1].name}</p>`;
 		// Вставляем табличку с именем участника
 		document.querySelector(".all-block").prepend(baseTable);
 		// Биндим созданее сообщение через 7 секунд после старта первой анимации
@@ -172,6 +184,7 @@ class VoteTitre{
 	}
 	// Создаём сообщение
 	createMessage(data){
+		console.log(data)
 		let processedData = this.processMessageData(data);
 		let jam = document.getElementById("jam");
 		jam.innerHTML = `
@@ -184,7 +197,10 @@ class VoteTitre{
 		jam.className = "message";
 		setTimeout(()=>{
 			jam.classList.add("hide");
-			setTimeout(()=>{jam.innerHTML = "";}, 1200);
+			setTimeout(()=>{
+				jam.innerHTML = "";
+				this.showing = false;
+			}, 1200);
 		}, 5000);
 	}
 	// Обработка полученных данных
