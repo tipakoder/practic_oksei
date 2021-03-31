@@ -244,8 +244,6 @@ class VoteTitre{
             channel: data.channel,
         };
     }
-
 }
-
 
 var titre = new VoteTitre();
