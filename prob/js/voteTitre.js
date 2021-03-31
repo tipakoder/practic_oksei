@@ -36,11 +36,11 @@ class VoteTitre{
         // Настройка рамки карточки
         this.styleBorder = get("border", "0");
         // Настройка заднего фона карточки
-        this.styleCardBg = get("cardBg", "#2D3F53");
+        this.styleCardBg = get("cardBg", "rgba(0, 0, 0, 0.52)");
         // Цвет имени
-        this.styleColorName = get("nameColor", "#EC4F6E");
+        this.styleColorName = get("nameColor", "yellow");
         // Цвет текста
-        this.styleColorText = get("textColor", "#FFFFFF");
+        this.styleColorText = get("textColor", "#FFF");
 		// Цвет заднего фона
         this.styleBackgroundColor = get("backgroundColor", "rgba(0,0,0,0)");
 		// Номер, который отслеживаем
@@ -66,6 +66,8 @@ class VoteTitre{
 	}
 	// Запускаем жц титра и начинаем взаимодействовать с контентом
 	launch(){
+		// Применяем стартовые настрйоки
+		document.body.style.backgroundColor = this.styleBackgroundColor;
 		// Запускаем интервал
 		this.interval = setInterval(() => {this.update();}, this.duration);
 		// Запускаем сразу
@@ -141,8 +143,6 @@ class VoteTitre{
 	}
 	// Рисуем нужный блок
 	draw(){
-		console.log(this.started)
-		console.log(this.showing)
 		// Если показ сообщений начат
 		if(this.started && !this.showing){
 			// Включаем индиктор показа
@@ -188,11 +188,14 @@ class VoteTitre{
 		jam.innerHTML = `
 		<img src="${processedData.icon}">
 		<div class="message-info">
-		<h1>${processedData.author}</h1>
-		<p>${processedData.content}</p>
+		<h1 style="color: ${this.styleColorName};">${processedData.author}</h1>
+		<p style="color: ${this.styleColorText};">${processedData.content}</p>
 		</div>
 		`;
 		jam.className = "message";
+		jam.style.backgroundColor = this.styleCardBg;
+		jam.style.boxShadow = this.styleShadow;
+		jam.style.border = this.styleBorder;
 		setTimeout(()=>{
 			jam.classList.add("hide");
 			setTimeout(()=>{
