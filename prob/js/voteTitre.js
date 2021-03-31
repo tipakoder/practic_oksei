@@ -172,13 +172,15 @@ class VoteTitre{
 		baseTable.className = "jamming-show";
 		baseTable.id = "jam";
 		baseTable.innerHTML = `<h1 class="left-show">${this.memberIndex}</h1>
-            <p class="p-left-show">${this.members[this.memberIndex-1].name}</p>`;
+            <p class="p-left-show">${this.members[this.memberIndex-1].name}<div class="YB-show"></div></p>`;
 		// Вставляем табличку с именем участника
 		document.querySelector(".all-block").prepend(baseTable);
 		// Биндим созданее сообщение через 7 секунд после старта первой анимации
-		setTimeout( () => {document.querySelector(".left-show").className = "left-hide";}, 6000 );
-		setTimeout( () => {document.querySelector(".p-left-show").className = "p-left-hide";}, 6500 );
-		setTimeout( () => {this.started = true;}, 7000 );
+		setTimeout( () => {document.querySelector(".left-show").className = "left-hide";}, 8000 );
+		setTimeout( () => {document.querySelector(".p-left-show").className = "p-left-hide";}, 8000 );
+		setTimeout( () => {document.querySelector(".jamming-show").className = "jamming-hide";}, 8000 );
+		setTimeout( () => {document.querySelector(".YB-show").className = "YB-hide";}, 8000 );
+		setTimeout( () => {this.started = true;}, 3000 );
 	}
 	// Создаём сообщение
 	createMessage(data){
@@ -199,7 +201,7 @@ class VoteTitre{
 				jam.innerHTML = "";
 				this.showing = false;
 			}, 1200);
-		}, 5000);
+		}, 6000);
 	}
 	// Обработка полученных данных
     processMessageData(data){
