@@ -23,71 +23,40 @@
 }
 
 /* Стили для верхнего блока */
-.up-block-show {
+.up-block{
     display: flex;
     width: 650px;
-    animation-name: up-block-transform;
-    animation-duration: 2.2s;
     position: absolute;
     bottom: 175px;
 }
 
-.up-block-hide{
-    display: flex;
-    width: 650px;
-    animation-name: up-block-hide;
-    animation-duration: 2.2s;
-    position: absolute;
-    bottom: 175px;
-}
+.up-block.anim-show{ animation: up-block-transform 2.2s; }
+.up-block.anim-hide{ animation: up-block-hide 2.2s; }
 
-.number-st-show{
+.number-st{
     background-color: yellow;
     padding: 25px 45px;
-    z-index: 1;
-    animation-name: up-block-rotate;
-    animation-duration: 1.6s;
+    z-index: 1; 
 }
 
-.number-st-hide{
-    background-color: yellow;
-    padding: 25px 45px;
-    z-index: 1;
-    animation-name: up-block-rotate-hide;
-    animation-duration: 1.6s;
-}
+.number-st.anim-show{ animation: up-block-rotate 1.6s; }
+.number-st.anim-hide{ animation: up-block-rotate-hide 1.6s; }
 
-.number-st-show h1{
+.number-st h1{
     font-size: 82px;
     color: rgb(200, 3, 200);
-}
-
-.number-st-hide h1{
-    font-size: 82px;
-    color: rgb(200, 3, 200);
-}
-
-.info-show{
-    font-size: 58px;
-    color: white;
-    display: flex;
-    animation-name: show-left;
-    animation-duration: 2.1s;
-}
-
-.info-hide{
-    font-size: 58px;
-    color: white;
-    display: flex;
-    animation-name: hide-left;
-    animation-duration: 1.4s;
 }
 
 .info{
     font-size: 58px;
     color: white;
     display: none;
+    animation-name: show-left;
+    animation-duration: 2.1s;
 }
+
+.info.anim-show{ animation: show-left 2.1s; display: flex; }
+.info.anim-hide{ animation: hide-left 1.4s; }
 
 .infoBG{
     background-color: black;
@@ -138,19 +107,6 @@
 
 /* Номер нижнего блока */
 
-.down-block .number-org-show{
-    height: 65px;
-    margin-top: 10px;
-    background-color: black;
-    color: yellow;
-    font-size: 18px;
-    padding: 0px 20px 0px 20px;
-    line-height: 65px;
-    animation-name: show-left;
-    animation-duration: 6.2s;
-    z-index: 1;
-}
-
 .down-block .number-org{
     height: 65px;
     margin-top: 10px;
@@ -159,35 +115,22 @@
     font-size: 18px;
     padding: 0px 20px 0px 20px;
     line-height: 65px;
-    display: none;
+    z-index: 1;
+	display: none;
 }
+
+.down-block .number-org.anim-show{ animation: show-left 6.2s; display: block; }
 
 /* Блок голоса за участника */
-
-.voice-conter-show{
-    height: 85px;
-    display: flex;
-    animation-name: show-left;
-    animation-duration: 3.1s;
-}
 
 .voice-conter{
     height: 85px;
     display: none;
+    animation-name: show-left;
+    animation-duration: 3.1s;
 }
 
-.voite-text-show{
-    margin-top: 15px;
-    width: 810px;
-    background-color: white;
-    height: 55px;
-    padding: 0px 20px 0px 20px;
-    font-size: 18px;
-    display: flex;
-    animation-name: show-left;
-    animation-duration: 6.2s;
-    position: relative;
-}
+.voice-conter.anim-show{ animation: show-left 3.1s; display: flex; }
 
 .voite-text{
     margin-top: 15px;
@@ -197,9 +140,12 @@
     padding: 0px 20px 0px 20px;
     font-size: 18px;
     display: none;
+    position: relative;
 }
 
-.voite-text-show img{
+.voite-text.anim-show{ animation: show-left 6.2s; display: flex; }
+
+.voite-text img{
     max-width: 50px;
     max-height: 50px;
     border-radius: 100px;
@@ -231,7 +177,7 @@
 /* Блок показа сообщения */
 
 .message-show{
-    width: 1650px;
+    width: 80%;
     height: 220px;
     position: absolute;
     bottom: 50px;
@@ -290,10 +236,6 @@
 .message-right-block{
     width: 100%;
     margin-left: 15px;
-}
-
-.message-right-block .text-show{
-	margin-left: 115px;
 }
 
 .message-right-block h1{

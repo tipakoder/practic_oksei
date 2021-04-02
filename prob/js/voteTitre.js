@@ -95,8 +95,10 @@ class VoteTitre{
 		}).then((data) => {
 			console.log(data);
 			this.members = data.vars;
-			if(!this.started) this.createBlock();
-			if(data.vars[this.memberIndex] != undefined) document.getElementById("titre-count-votes").textContent = data.vars[this.memberIndex].count;
+			if(data.vars[this.memberIndex] != undefined){
+				document.getElementById("titre-count-votes").textContent = data.vars[this.memberIndex].count;
+				if(this.started == false) this.createBlock();
+			}
 		}).catch((error) => {
 			console.log(error);
 		});
@@ -169,58 +171,57 @@ class VoteTitre{
 	}
 	// Создаём блок
 	createBlock(){
-		// Если уже есть блок, пропускаем этап создания
-		if(document.getElementById("jam")) return;
 		// Настраиваем блок
 		document.getElementById("member-number").textContent = this.memberIndex+1;
 		document.getElementById("member-name").textContent = this.members[this.memberIndex].name;
 		// Начальная анимация появления титра
-		const upBlock = document.querySelector('.up-block-show');
-		const info = document.querySelector('.info');
-		const voiceConter = document.querySelector('.voice-conter');
-		const numberSt = document.querySelector('.number-st-show');
-		const numberOrg = document.querySelector('.number-org');
-    	const voiteText = document.querySelector('.voite-text');
+		this.obj = {};
+		this.obj.upBlock = document.querySelector('.up-block');
+		this.obj.info = document.querySelector('.info');
+		this.obj.voiceConter = document.querySelector('.voice-conter');
+		this.obj.numberSt = document.querySelector('.number-st');
+		this.obj.numberOrg = document.querySelector('.number-org');
+    	this.obj.voiteText = document.querySelector('.voite-text');
+		this.obj.upBlock.classList.add("anim-show");
+		this.obj.numberSt.classList.add("anim-show");
 		setTimeout(() => {
-			upBlock.style.overflow = 'hidden';
+			this.obj.upBlock.style.overflow = 'hidden';
 		}, 1450);
 		setTimeout(() => {
-			info.className = 'info-show';
+			this.obj.info.classList.add("anim-show");
 		}, 720);
 		setTimeout(() => {
-			voiceConter.className = 'voice-conter-show';
+			this.obj.voiceConter.classList.add("anim-show");
 		}, 400);
 		setTimeout(() => {
-			voiceConter.style.overflow = 'hidden';
+			this.obj.voiceConter.style.overflow = 'hidden';
 		}, 2100);
 		// Показ информации нижнего блока
 		setTimeout(() => {
-			numberOrg.className = 'number-org-show';
-			voiteText.className = 'voite-text-show';
+			this.obj.numberOrg.classList.add('anim-show');
+			this.obj.voiteText.classList.add('anim-show');
 		}, 200);
 		// Скрытие информации верхнего блока
 		setTimeout(() => {
-			info.className = 'info-hide';
+			this.obj.info.classList.add('anim-hide');
 		}, 10000);
 		setTimeout(() => {
-			info.style.display = 'none';
-			document.querySelector('.up-block-show').style.overflow = 'visible';
-			document.querySelector('.up-block-show').className = 'up-block-hide';
-			numberSt.className = 'number-st-hide';
+			this.obj.info.style.display = 'none';
+			this.obj.upBlock.style.overflow = 'visible';
+			this.obj.upBlock.classList.add('anim-hide');
+			this.obj.numberSt.classList.add('anim-hide');
 		}, 11100);
 		// Включаем индикацию о завершении работы анимации и начала работы титра
 		setTimeout( () => {
-			upBlock.style.overflow = 'visible';
-			upBlock.innerHTML = "";
+			this.obj.upBlock.style.overflow = 'visible';
+			this.obj.upBlock.innerHTML = "";
 			this.started = true;
 		}, 11700 );
 	}
 	// Создаём сообщение
 	createMessage(data){
 		let processedData = this.processMessageData(data);
-		const upBlock = document.querySelector('.up-block-hide') || document.querySelector(".up-block-show");
-		upBlock.style.overflow = 'visible !important';
-		upBlock.innerHTML = `
+		this.obj.upBlock.innerHTML = `
         <div class="message-show">
             <div class="MPL">
                 <div class="message-info-hide">
@@ -236,17 +237,17 @@ class VoteTitre{
                 </div>
             </div>
         </div>`;
-        const messageHi = document.querySelector('.message-info-hide');
-        const mS = document.querySelector('.message-show');
+        this.obj.messageHi = document.querySelector('.message-info-hide');
+        this.obj.mS = document.querySelector('.message-show');
         setTimeout(() => {
-            mS.style.overflow = 'hidden';
+            this.obj.mS.style.overflow = 'hidden';
 			setTimeout(() => {
-				messageHi.className = 'message-info-show';
+				this.obj.messageHi.className = 'message-info-show';
 			}, 50);
         }, 150);
 		setTimeout(()=>{
 			setTimeout(()=>{
-				upBlock.innerHTML = "";
+				this.obj.upBlock.innerHTML = "";
 				this.showing = false;
 			}, 1200);
 		}, this.duration);
