@@ -78,7 +78,7 @@ class VoteTitre{
 	update(){
 		this.load();
 		// Если есть очередь на отрисовку
-		this.draw();
+		if(this.messagesList.length > 0) this.draw();
 	}
 	// Берём с сервера информацию о текущем голосовании
 	load(){
@@ -313,4 +313,4 @@ class VoteTitre{
     }
 }
 
-var titre = new VoteTitre();
+var titre = new VoteTitre(true);
