@@ -59,7 +59,7 @@ class VoteTitre{
 		// Показываем ли комментарии (по умолчанию: да)
 		this.showComments = get("showComments", "false");
 		// Индекс отслеживаемой цели (номер от 0 до кол-ва вариантов голосования - 1)
-		this.memberIndex = parseInt(get("memberIndex", "0"))-1;
+		this.memberIndex = parseInt(get("memberIndex", "1"))-1;
 		// Начался ли показ титра
 		this.started = false;
 		// Показывается ли титр
@@ -72,7 +72,7 @@ class VoteTitre{
 		// Применяем стартовые настрйоки
 		document.body.style.backgroundColor = this.styleBackgroundColor;
 		// Запускаем интервал
-		this.interval = setInterval(() => {this.update();}, this.duration);
+		this.interval = setInterval(() => {this.update();}, this.pause);
 		// Запускаем сразу
 		this.update();
 	}
@@ -210,14 +210,15 @@ class VoteTitre{
 		}, 11100);
 		// Включаем индикацию о завершении работы анимации и начала работы титра
 		setTimeout( () => {
-			document.querySelector('.up-block-hide').style.overflow = 'visible';
+			upBlock.style.overflow = 'visible';
+			upBlock.innerHTML = "";
 			this.started = true;
 		}, 11700 );
 	}
 	// Создаём сообщение
 	createMessage(data){
 		let processedData = this.processMessageData(data);
-		const upBlock = document.querySelector('.up-block-hide');
+		const upBlock = document.querySelector('.up-block-hide') || document.querySelector(".up-block-show");
 		upBlock.style.overflow = 'visible !important';
 		upBlock.innerHTML = `
         <div class="message-show">
@@ -245,7 +246,7 @@ class VoteTitre{
         }, 150);
 		setTimeout(()=>{
 			setTimeout(()=>{
-				this.obj.upBlock.innerHTML = "";
+				upBlock.innerHTML = "";
 				this.showing = false;
 			}, 1200);
 		}, this.duration);

@@ -281,6 +281,10 @@
     margin-left: 15px;
 }
 
+.message-right-block .text-show{
+	margin-left: 115px;
+}
+
 .message-right-block h1{
     color: yellow;
     font-size: 58px;
