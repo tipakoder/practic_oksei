@@ -71,9 +71,7 @@ class VoteTitre{
 	launch(){
 		// Применяем стартовые настрйоки
 		document.body.style.backgroundColor = this.styleBackgroundColor;
-		// Запускаем интервал
-		this.interval = setInterval(() => {this.update();}, this.pause);
-		// Запускаем сразу
+		// Получаем начальную информацию
 		this.update();
 	}
 	// Обновление каждый неопределённый раз
@@ -104,7 +102,7 @@ class VoteTitre{
 		});
 
 		// Получаем новые сообщения
-		if(this.showComments == "true"){
+		if(this.showComments == "true" && this.started){
 			fetch(`http://api.stream.iactive.pro/titreInfo?user=${this.user}&from=${this.lastMessageId}&type=${this.from}`, {}).then(async(res) => {
 				try{
 					let dataRes = await res.json();
@@ -149,6 +147,7 @@ class VoteTitre{
 	}
 	// Рисуем нужный блок
 	draw(){
+		console.log(this.started);
 		// Если показ сообщений начат
 		if(this.started && !this.showing){
 			// Включаем индиктор показа
@@ -216,6 +215,10 @@ class VoteTitre{
 			this.obj.upBlock.style.overflow = 'visible';
 			this.obj.upBlock.innerHTML = "";
 			this.started = true;
+			// Запускаем интервал
+			this.interval = setInterval(() => {this.update();}, this.duration+this.pause);
+			// Выполняем первый запуск (для начала отображения без задержек)
+			this.update();
 		}, 11700 );
 	}
 	// Создаём сообщение
