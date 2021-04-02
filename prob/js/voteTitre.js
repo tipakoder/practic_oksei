@@ -224,22 +224,37 @@ class VoteTitre{
 	// Создаём сообщение
 	createMessage(data){
 		let processedData = this.processMessageData(data);
-		this.obj.upBlock.innerHTML = `
-        <div class="message-show">
-            <div class="MPL">
-                <div class="message-info">
-                    <div class="message-left-block">
-                        <img src="${processedData.icon}" alt="">
-                    </div>
-                    <div class="message-right-block">
-                        <div class="text-show">
-                            <h1 style="color: ${this.styleColorName};">${processedData.author}</h1>
-                            <p style="color: ${this.styleColorText};">${processedData.content}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>`;
+		if( !document.querySelector(".message-show") ) { 
+			this.obj.upBlock.innerHTML = `
+			<div class="message-show">
+				<div class="MPL">
+					<div class="message-info">
+						<div class="message-left-block">
+							<img src="${processedData.icon}" alt="">
+						</div>
+						<div class="message-right-block">
+							<div class="text-show">
+								<h1 style="color: ${this.styleColorName};">${processedData.author}</h1>
+								<p style="color: ${this.styleColorText};">${processedData.content}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>`;
+		} else {
+			document.querySelector(".message-show .MPL").innerHTML = `
+			<div class="message-info">
+				<div class="message-left-block">
+					<img src="${processedData.icon}" alt="">
+				</div>
+				<div class="message-right-block">
+					<div class="text-show">
+						<h1 style="color: ${this.styleColorName};">${processedData.author}</h1>
+						<p style="color: ${this.styleColorText};">${processedData.content}</p>
+					</div>
+				</div>
+			</div>`;
+		}
         this.obj.messageHi = document.querySelector('.message-info');
         this.obj.mS = document.querySelector('.message-show');
         setTimeout(() => {
@@ -251,7 +266,7 @@ class VoteTitre{
 		setTimeout(()=>{
 			this.obj.messageHi.classList.add('anim-hide');
 			setTimeout(()=>{
-				this.obj.upBlock.innerHTML = "";
+				document.querySelector(".message-show .MPL").innerHTML = "";
 				this.showing = false;
 			}, 2700);
 		}, this.duration);
