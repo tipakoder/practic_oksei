@@ -258,7 +258,18 @@
     margin-left: 15px;
     display: flex;
     animation-name: show-left-text;
-    animation-duration: 3.7s;
+    animation-duration: 2.7s;
+}
+
+.hide-message-info{
+    background-color: rgba(0, 0, 0, 0.479);
+    width: max-content;
+    height: max-content;
+    margin-top: 3px;
+    margin-left: 15px;
+    display: flex;
+    animation-name: hide-left-text;
+    animation-duration: 2.7s;
 }
 
 .message-left-block{
