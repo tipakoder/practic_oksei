@@ -164,6 +164,7 @@ class VoteTitre{
 				this.nextMessageId++;
 			} else {
 				this.messages = [];
+				this.showing = false;
 			}
 		}	
 	}
