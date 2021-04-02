@@ -210,7 +210,7 @@ class VoteTitre{
 			this.obj.upBlock.style.overflow = 'visible';
 			this.obj.upBlock.classList.add('anim-hide');
 			this.obj.numberSt.classList.add('anim-hide');
-		}, 11100);
+		}, 10900);
 		// Включаем индикацию о завершении работы анимации и начала работы титра
 		setTimeout( () => {
 			this.obj.upBlock.style.overflow = 'visible';
@@ -224,7 +224,7 @@ class VoteTitre{
 		this.obj.upBlock.innerHTML = `
         <div class="message-show">
             <div class="MPL">
-                <div class="message-info-hide">
+                <div class="message-info">
                     <div class="message-left-block">
                         <img src="${processedData.icon}" alt="">
                     </div>
@@ -237,12 +237,12 @@ class VoteTitre{
                 </div>
             </div>
         </div>`;
-        this.obj.messageHi = document.querySelector('.message-info-hide');
+        this.obj.messageHi = document.querySelector('.message-info');
         this.obj.mS = document.querySelector('.message-show');
         setTimeout(() => {
             this.obj.mS.style.overflow = 'hidden';
 			setTimeout(() => {
-				this.obj.messageHi.className = 'message-info-show';
+				this.obj.messageHi.classList.add('anim-show');
 			}, 50);
         }, 150);
 		setTimeout(()=>{

@@ -177,18 +177,18 @@
 /* Блок показа сообщения */
 
 .message-show{
-    width: 80%;
-    height: 220px;
+    width: 1680px;
+    height: 250px;
     position: absolute;
     bottom: 50px;
     animation-name: show-left;
-    animation-duration: 1.9s;
+    animation-duration: 2.9s;
 }
 
-.message-info-hide{
+.message-info{
     background-color: rgba(0, 0, 0, 0.479);
-    width: max-content;
-    height: max-content;
+    width: 1280px;
+    height: 205px;
     margin-top: 3px;
     margin-left: 15px;
     animation-name: message-show;
@@ -196,30 +196,11 @@
     display: none;
 }
 
-.message-info-show{
-    background-color: rgba(0, 0, 0, 0.479);
-    width: max-content;
-    height: max-content;
-    margin-top: 3px;
-    margin-left: 15px;
-    display: flex;
-    animation-name: show-left-text;
-    animation-duration: 2.7s;
-}
-
-.hide-message-info{
-    background-color: rgba(0, 0, 0, 0.479);
-    width: max-content;
-    height: max-content;
-    margin-top: 3px;
-    margin-left: 15px;
-    display: flex;
-    animation-name: hide-left-text;
-    animation-duration: 2.7s;
-}
+.message-info.anim-show{animation-name: show-left-text 2.7s; display: flex;}
+.message-info.anim-hide{animation-name: hide-left-text 2.7s;}
 
 .message-left-block{
-    width: 30%;
+    width: 275px;
     height: 100%;
     position: relative;
 }
@@ -250,7 +231,7 @@
 
 .MPL {
     width: 9px;
-    height: 195px;
+    height: 223px;
     background-color: rgb(184, 0, 184);
     padding-top: 3px;
 }
