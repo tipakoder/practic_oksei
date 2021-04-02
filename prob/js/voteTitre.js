@@ -33,9 +33,9 @@ class VoteTitre{
         // Настройка тени карточки
         this.styleShadow = get("shadow", "none");
         // Настройка рамки карточки
-        this.styleBorder = get("border", "0");
+        this.styleBorder = get("border", "4px solid yellow");
         // Настройка заднего фона карточки
-        this.styleCardBg = get("cardBg", "rgba(0, 0, 0, 0.52)");
+        this.styleCardBg = get("cardBg", "rgba(0, 0, 0, 0.479)");
         // Цвет имени
         this.styleColorName = get("nameColor", "yellow");
         // Цвет текста
@@ -70,7 +70,7 @@ class VoteTitre{
 	// Запускаем жц титра и начинаем взаимодействовать с контентом
 	launch(){
 		// Применяем стартовые настрйоки
-		document.body.style.backgroundColor = this.styleBackgroundColor;
+		document.querySelector(".container").style.backgroundColor = this.styleBackgroundColor;
 		// Получаем первоначальные данные с сервера
 		this.update();
 	}
@@ -228,9 +228,9 @@ class VoteTitre{
 			this.obj.upBlock.innerHTML = `
 			<div class="message-show">
 				<div class="MPL">
-					<div class="message-info">
+					<div class="message-info" style="background-color: ${this.styleCardBg}; box-shadow: ${this.styleShadow};">
 						<div class="message-left-block">
-							<img src="${processedData.icon}" alt="">
+							<img src="${processedData.icon}" alt="" style="border: ${this.styleBorder}">
 						</div>
 						<div class="message-right-block">
 							<div class="text-show">
@@ -243,9 +243,9 @@ class VoteTitre{
 			</div>`;
 		} else {
 			document.querySelector(".message-show .MPL").innerHTML = `
-			<div class="message-info">
+			<div class="message-info" style="background-color: ${this.styleCardBg}; box-shadow: ${this.styleShadow};">
 				<div class="message-left-block">
-					<img src="${processedData.icon}" alt="">
+					<img src="${processedData.icon}" alt="" style="border: ${this.styleBorder}">
 				</div>
 				<div class="message-right-block">
 					<div class="text-show">

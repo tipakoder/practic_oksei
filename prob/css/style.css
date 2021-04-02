@@ -7,9 +7,8 @@
 
 .container{
     position: relative;
-    width: 2320px;
+    width: 1920px;
     height: 1080px;
-    background-color: pink;
 }
 
 /* Стили для всех блоков */
@@ -156,7 +155,7 @@
 
 .voice-col{
     position: absolute;
-    right: -807px;
+    right: -515px;
     bottom: 0;
     animation-name: voice-show;
     animation-duration: 10s;
