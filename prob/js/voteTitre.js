@@ -313,4 +313,4 @@ class VoteTitre{
     }
 }
 
-var titre = new VoteTitre(true);
+var titre = new VoteTitre(false);
