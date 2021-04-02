@@ -179,9 +179,9 @@
     width: 1680px;
     height: 250px;
     position: absolute;
-    bottom: 50px;
+    bottom: -10px;
     animation-name: show-left;
-    animation-duration: 2.9s;
+    animation-duration: 4.2s;
 }
 
 .message-info{
@@ -220,7 +220,7 @@
 
 .message-right-block h1{
     color: yellow;
-    font-size: 58px;
+    font-size: 44px;
 }
 
 .message-right-block p{
