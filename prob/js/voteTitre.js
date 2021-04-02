@@ -164,7 +164,6 @@ class VoteTitre{
 				this.nextMessageId++;
 			} else {
 				this.messages = [];
-				this.showing = false;
 			}
 		}	
 	}
@@ -267,9 +266,9 @@ class VoteTitre{
 		setTimeout(()=>{
 			this.obj.messageHi.classList.add('anim-hide');
 			setTimeout(()=>{
-				document.querySelector(".message-show .MPL").innerHTML = "";
+				document.querySelector(".message-show .MPL").style.display = 'none';
 				this.showing = false;
-			}, 2700);
+			}, 600);
 		}, this.duration);
 	}
 	// Обработка полученных данных
@@ -314,4 +313,4 @@ class VoteTitre{
     }
 }
 
-var titre = new VoteTitre(false);
+var titre = new VoteTitre();

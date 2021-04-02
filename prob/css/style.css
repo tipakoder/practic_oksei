@@ -191,12 +191,12 @@
     margin-top: 3px;
     margin-left: 15px;
     animation-name: message-show;
-    animation-duration: 2.1s;
+    animation-duration: 4.8s;
     display: none;
 }
 
-.message-info.anim-show{animation: show-left-text 2.7s; display: flex;}
-.message-info.anim-hide{animation: hide-left-text 2.7s;  display: flex;}
+.message-info.anim-show{animation: show-left-text 4.2s; display: flex;}
+.message-info.anim-hide{animation: hide-left-text 4.2s;  display: flex;}
 
 .message-left-block{
     width: 275px;
