@@ -47,6 +47,8 @@ class VoteTitre{
 		this.user = get("user", "79328532025");
 		// Массив сообщений
 		this.messages = [];
+		// Массив содержания
+		this.messagesOld = [];
 		// ID последнего сообщения
 		this.lastMessageId = 0;
 		// ID следующего сообщения
@@ -119,7 +121,8 @@ class VoteTitre{
 				for(let message of data.messagesList){
 					if(
 						data.deletedMessagesIdList.indexOf(message.id) === -1 &&
-						this.messages.findIndex(elm => elm.message.author == message.message.author) === -1
+						this.messagesOld.findIndex(elm => elm.message.author == message.message.author) === -1 &&
+						this.messagesOld.findIndex(elm => elm.message.content == message.message.content) === -1
 					){ 
 						newMessages.push(message); 
 					}
@@ -127,6 +130,7 @@ class VoteTitre{
 				console.log(newMessages)
 				if(newMessages.length > 0){
 					for(let message of newMessages){
+						this.messagesOld.unshift(message);
 						this.messages.unshift(message);
 					}
 					// Запоминаем индекс последнего полученного сообщения
