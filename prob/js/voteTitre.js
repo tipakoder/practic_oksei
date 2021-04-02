@@ -71,9 +71,7 @@ class VoteTitre{
 	launch(){
 		// Применяем стартовые настрйоки
 		document.body.style.backgroundColor = this.styleBackgroundColor;
-		// Запускаем интервал
-		this.interval = setInterval(() => {this.update();}, this.pause);
-		// Запускаем сразу
+		// Получаем первоначальные данные с сервера
 		this.update();
 	}
 	// Обновление каждый неопределённый раз
@@ -104,7 +102,7 @@ class VoteTitre{
 		});
 
 		// Получаем новые сообщения
-		if(this.showComments == "true"){
+		if(this.showComments == "true" && this.started){
 			fetch(`http://api.stream.iactive.pro/titreInfo?user=${this.user}&from=${this.lastMessageId}&type=${this.from}`, {}).then(async(res) => {
 				try{
 					let dataRes = await res.json();
@@ -213,9 +211,14 @@ class VoteTitre{
 		}, 10900);
 		// Включаем индикацию о завершении работы анимации и начала работы титра
 		setTimeout( () => {
-			this.obj.upBlock.style.overflow = 'visible';
+			// Очищаем верхний блок
 			this.obj.upBlock.innerHTML = "";
+			// Меняем индикатор начала
 			this.started = true;
+			// Запускаем интервал обновления
+			this.interval = setInterval(() => {this.update();}, this.duration+this.pause);
+			// Выполняем первый запуск обновления
+			this.update();
 		}, 11700 );
 	}
 	// Создаём сообщение
@@ -246,10 +249,11 @@ class VoteTitre{
 			}, 50);
         }, 150);
 		setTimeout(()=>{
+			this.obj.messageHi.classList.add('anim-hide');
 			setTimeout(()=>{
 				this.obj.upBlock.innerHTML = "";
 				this.showing = false;
-			}, 1200);
+			}, 2700);
 		}, this.duration);
 	}
 	// Обработка полученных данных

@@ -24,13 +24,13 @@
 
 /* Стили для верхнего блока */
 .up-block{
-    display: flex;
+    display: none;
     width: 650px;
     position: absolute;
     bottom: 175px;
 }
 
-.up-block.anim-show{ animation: up-block-transform 2.2s; }
+.up-block.anim-show{ animation: up-block-transform 2.2s; display: flex;}
 .up-block.anim-hide{ animation: up-block-hide 2.2s; }
 
 .number-st{
@@ -196,12 +196,12 @@
     display: none;
 }
 
-.message-info.anim-show{animation-name: show-left-text 2.7s; display: flex;}
-.message-info.anim-hide{animation-name: hide-left-text 2.7s;}
+.message-info.anim-show{animation: show-left-text 2.7s; display: flex;}
+.message-info.anim-hide{animation: hide-left-text 2.7s;  display: flex;}
 
 .message-left-block{
     width: 275px;
-    height: 99%;
+    height: 100%;
     position: relative;
 }
 
