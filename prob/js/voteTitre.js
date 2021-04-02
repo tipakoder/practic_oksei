@@ -147,6 +147,8 @@ class VoteTitre{
 	}
 	// Рисуем нужный блок
 	draw(){
+		console.log(this.started);
+		console.log(this.showing);
 		// Если показ сообщений начат
 		if(this.started && !this.showing){
 			// Включаем индиктор показа
@@ -267,6 +269,7 @@ class VoteTitre{
 		setTimeout(()=>{
 			this.obj.messageHi.classList.add('anim-hide');
 			setTimeout(()=>{
+				console.log("anim hide");
 				document.querySelector(".message-show .MPL").innerHTML = "";
 				this.showing = false;
 			}, 2700);
