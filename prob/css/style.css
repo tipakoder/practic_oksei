@@ -1,231 +1,299 @@
-body{
-    width: 1920px;
-    height: 1080px;
-    background: rgb(252, 196, 181);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    overflow: hidden;
+*{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
 }
 
-
-
-.all-block{
-    position: absolute;
-    bottom: 1px;
-    left: 150px;
-}
-
-
-/* Блок участников */
-.jamming-show{
-    font-size: 48px;
-    display: flex;
-    width: 350px;
-    max-height: 210px;
-    animation-name: show-left;
-    animation-duration: 2.2s;
-}
-
-.jamming-show .YB-show{
-    margin-top: 64px;
-    height: 127px;
-    padding: 1px 8px;
-    background-color: yellow;
-    animation-name: show-left-PB;
-    animation-duration: 3s; 
-}
-
-.jamming-show .left-show{
-    min-width: 32%;
-    height: 130%;
-    text-align: center;
-    background-color: yellow;
-    color: rgb(195, 12, 195);
-    animation-name: width-show;
-    animation-duration: 2.4s;
-    z-index: 1;
-}
-
-.jamming-show .p-left-show{
-    margin-top: 87px;
-    background: black;
-    font-weight: 700;
-    font-size: 54px;
-    color: #fff;
-    width: 120%;
-    height: 72%;
-    line-height: 75px;
-    box-sizing: padding-box;
-    padding: 8px 60px;
-    text-align: center;
-    animation-name: show-left-text;
-    animation-duration: 3s;
-}
-
-
-/* Список участников пропадает с экрана */
-.jamming-hide{
-    font-size: 48px;
-    display: flex;
-    width: 350px;
-    max-height: 210px;
-    animation-name: hide-left;
-    animation-duration: 7.6s;
-}
-
-.jamming-hide .YB-hide{
-    margin-top: 64px;
-    height: 125px;
-    padding: 1px 8px;
-    background-color: yellow;
-    animation-name: hide-left;
-    animation-duration: 2.2s; 
-}
-
-.jamming-hide .left-hide{
-    min-width: 32%;
-    height: 130%;
-    text-align: center;
-    background-color: yellow;
-    color: rgb(195, 12, 195);
-    animation-name: width-hide-rotate;
-    animation-duration: 3.8s;
-    /* animation-delay: 4s; */
-    z-index: 1;
-}
-
-.jamming-hide .p-left-hide{
-    margin-top: 87px;
-    background: black;
-    font-weight: 700;
-    font-size: 54px;
-    color: #fff;
-    width: 120%;
-    height: 72%;
-    line-height: 75px;
-    padding: 8px 60px;
-    text-align: center;
-    animation-name: show-hide;
-    animation-duration: 1.8s;
-}
-
-/* Титр голосования */
-.voice-for-var {
+.container{
     position: relative;
-    width: 100%;
-    display: flex;
-    margin-top: 45px;
-    height: 250px;
-    margin-left: 30px;
+    width: 2320px;
+    height: 1080px;
+    background-color: pink;
 }
 
-.voice-for-var .PBF{
-    height: 57px;
-    width: 15px;
-    padding: 15px 4px;
-    background-color: rgb(170, 0, 170);
+/* Стили для всех блоков */
+.all-block{
+    width: 95%;
+    height: 550px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     position: absolute;
-    right: 1080px;
-    bottom: 172px;
-    animation-name: show-left-PB;
-    animation-duration: 1.2s;
+    bottom: 25px;
+    left: 125px;
+}
+
+/* Стили для верхнего блока */
+.up-block-show {
+    display: flex;
+    width: 650px;
+    animation-name: up-block-transform;
+    animation-duration: 2.2s;
+    position: absolute;
+    bottom: 175px;
+}
+
+.up-block-hide{
+    display: flex;
+    width: 650px;
+    animation-name: up-block-hide;
+    animation-duration: 2.2s;
+    position: absolute;
+    bottom: 175px;
+}
+
+.number-st-show{
+    background-color: yellow;
+    padding: 25px 45px;
+    z-index: 1;
+    animation-name: up-block-rotate;
+    animation-duration: 1.6s;
+}
+
+.number-st-hide{
+    background-color: yellow;
+    padding: 25px 45px;
+    z-index: 1;
+    animation-name: up-block-rotate-hide;
+    animation-duration: 1.6s;
+}
+
+.number-st-show h1{
+    font-size: 82px;
+    color: rgb(200, 3, 200);
+}
+
+.number-st-hide h1{
+    font-size: 82px;
+    color: rgb(200, 3, 200);
+}
+
+.info-show{
+    font-size: 58px;
+    color: white;
+    display: flex;
+    animation-name: show-left;
+    animation-duration: 2.1s;
+}
+
+.info-hide{
+    font-size: 58px;
+    color: white;
+    display: flex;
+    animation-name: hide-left;
+    animation-duration: 1.4s;
+}
+
+.info{
+    font-size: 58px;
+    color: white;
+    display: none;
+}
+
+.infoBG{
+    background-color: black;
+    height: 105px;
+    margin-top: 28px;
+    display: block;
+}
+
+.infoBG p{
+    line-height: 105px;
+    padding: 0px 85px 0px 85px;
+}
+
+.YL{
+    height: 159px;
+    width: 25px;
+    background-color: yellow;
+}
+
+/* Нижний блок */
+
+.down-block{
+    margin-top: 25px;
+    height: 70px;
+    display: flex;
+    position: absolute;
+    bottom: 75px;
+}
+
+.down-block .PBF{
+    height: 84px;
+    width: 15px;
+    background-color: rgb(184, 0, 184);
     z-index: 2;
 }
 
-.voice-for-var .number{
-    font-weight: 700;
-    text-align: center;
-    line-height: 65px;
-    min-width: 38%;
-    max-height: 27%;
-    background: black;
-    color: yellow;
-    font-size: 36px;
-    z-index: 1;
-    animation-name: number-left;
-    animation-duration: 2.6s;
-}
-
-.voice-for-var .text{
-    margin-top: 4px;
-    font-size: 29px;
-    font-weight: 600;
-    display: flex;
-    background-color: #fff;
-    line-height: 56px;
-    padding: 0px 16px;
-    min-width: 70%;
-    max-height: 23%;
-    animation-name: text-left;
-    animation-duration: 4.2s;
-}
-
-.voice-for-var .soc img{
-    max-width: 40px;
-    max-height: 40px;
-    margin: 10px 6px;
-    border-radius: 100px;
-}
-
-
-/* Блок голосов */
-.block-voice{
+.down-block .PBS{
+    height: 84px;
+    width: 15px;
+    background-color: rgb(184, 0, 184);
+    z-index: 2;
     position: absolute;
-    text-align: center;
-    font-size: 42px;
-    width: 32%;
-    line-height: 5px;
-    left: 1400px;
-    bottom: 145px;
-    animation-name: show-up;
-    animation-duration: 6s;
+    right: 0;
+    bottom: 10px;
+    top: -15px;
 }
 
 
-.block-voice p{
-    background-color: ghostwhite;
-    color: black;
-    font-weight: 600;
-    padding: 0 45px;
+/* Номер нижнего блока */
+
+.down-block .number-org-show{
+    height: 65px;
+    margin-top: 10px;
+    background-color: black;
+    color: yellow;
+    font-size: 18px;
+    padding: 0px 20px 0px 20px;
     line-height: 65px;
-    max-width: 80%;
-    font-size: 38px;
+    animation-name: show-left;
+    animation-duration: 6.2s;
+    z-index: 1;
 }
 
-/* Блок собщения */
-.message{
-    height: max-content;
-    width: 675px;
+.down-block .number-org{
+    height: 65px;
+    margin-top: 10px;
+    background-color: black;
+    color: yellow;
+    font-size: 18px;
+    padding: 0px 20px 0px 20px;
+    line-height: 65px;
+    display: none;
+}
+
+/* Блок голоса за участника */
+
+.voice-conter-show{
+    height: 85px;
     display: flex;
-    background: rgba(0, 0, 0, 0.52);
-    animation-name: width-hide;
-    animation-duration: 1.2s;
-    margin-bottom: 40px;
+    animation-name: show-left;
+    animation-duration: 3.1s;
 }
 
-.message.hide{
-	animation: width-del 1.5s;
+.voice-conter{
+    height: 85px;
+    display: none;
 }
 
-.message img{
-    width: 125px;
-    height: 125px;
-    margin: 25px;
+.voite-text-show{
+    margin-top: 15px;
+    width: 810px;
+    background-color: white;
+    height: 55px;
+    padding: 0px 20px 0px 20px;
+    font-size: 18px;
+    display: flex;
+    animation-name: show-left;
+    animation-duration: 6.2s;
+    position: relative;
 }
 
-.message-info{
-    animation-name: show-up;
+.voite-text{
+    margin-top: 15px;
+    width: 810px;
+    background-color: white;
+    height: 55px;
+    padding: 0px 20px 0px 20px;
+    font-size: 18px;
+    display: none;
+}
+
+.voite-text-show img{
+    max-width: 50px;
+    max-height: 50px;
+    border-radius: 100px;
+    margin: 2px 9px 0px 0px;
+}
+
+/* Блок кол-ва голосов */
+
+.voice-col{
+    position: absolute;
+    right: -807px;
+    bottom: 0;
+    animation-name: voice-show;
+    animation-duration: 10s;
+}
+
+.voice-col .col-voice{
+    font-size: 38px;
+    color: yellow;
+    text-align: center;
+}
+
+.voice-col .voices{
+    font-size: 20px;
+    background-color: ghostwhite;
+    padding: 2px 35px 2px 35px;
+}
+
+/* Блок показа сообщения */
+
+.message-show{
+    width: 1650px;
+    height: 220px;
+    position: absolute;
+    bottom: 50px;
+    animation-name: show-left;
     animation-duration: 1.9s;
 }
 
-.message h1{
+.message-info-hide{
+    background-color: rgba(0, 0, 0, 0.479);
+    width: max-content;
+    height: max-content;
+    margin-top: 3px;
+    margin-left: 15px;
+    animation-name: message-show;
+    animation-duration: 2.1s;
+    display: none;
+}
+
+.message-info-show{
+    background-color: rgba(0, 0, 0, 0.479);
+    width: max-content;
+    height: max-content;
+    margin-top: 3px;
+    margin-left: 15px;
+    display: flex;
+    animation-name: show-left-text;
+    animation-duration: 3.7s;
+}
+
+.message-left-block{
+    width: 30%;
+    height: 100%;
+    position: relative;
+}
+
+.message-left-block img{
+    width: 185px;
+    height: 205px;
+    margin: 10px 0px 0px 18px;
+    border-radius: 12px;
+    border: 4px solid yellow;
+    position: absolute;
+}
+
+.message-right-block{
+    width: 100%;
+    margin-left: 15px;
+}
+
+.message-right-block h1{
     color: yellow;
-    font-size: 36px;
-    font-weight: 500;   
+    font-size: 58px;
 }
 
-.message p{
-    color: #fff;
-    font-size: 24px;
+.message-right-block p{
+    color: white;
+    font-size: 38px;
 }
 
-
+.MPL {
+    width: 9px;
+    height: 195px;
+    background-color: rgb(184, 0, 184);
+    padding-top: 3px;
+}

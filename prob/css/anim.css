@@ -1,0 +1,55 @@
+@keyframes show-left{
+    0%{transform: translateX(-800%); opacity: 1;}
+    100%{transform: translateX(0); opacity: 1;}
+}
+@keyframes show-left-text{
+    0%{transform: translateX(-800%); opacity: 0;}
+    25%{transform: translateX(-800%); opacity: 0;}
+    50%{transform: translateX(-800%); opacity: 0;}
+    75%{transform: translateX(-800%); opacity: 0;}
+    100%{transform: translateX(0); opacity: 1;}
+}
+
+@keyframes hide-left{
+    0%{transform: translateX(0); opacity: 1;}
+    100%{transform: translateX(-100%); opacity: 1;}
+}
+
+@keyframes up-block-transform{
+    0%{transform: translateX(-100%); opacity: 1;}
+    100%{transform: translateX(0); opacity: 1;}
+}
+
+@keyframes up-block-hide{
+    0%{transform: translateX(0); opacity: 1;}
+    100%{transform: translateX(-100%); opacity: 1;}
+}
+
+@keyframes up-block-rotate{
+    0%{transform: rotate(-180deg); opacity: 1;}
+    100%{transform: rotate(0deg); opacity: 1;}
+}
+
+@keyframes up-block-rotate-hide{
+    0%{transform: rotate(0deg); opacity: 1;}
+    100%{transform: rotate(-180deg); opacity: 1;}
+}
+
+@keyframes message-show{
+    0%{transform: scale(0); opacity: 0;}
+    100%{transform: scale(100%); opacity: 1;}
+}
+
+@keyframes show-text {
+    0%{transform: translateY(100%); opacity: 0;}
+    0%{transform: translateY(25%); opacity: 0;}
+    100%{transform: translateY(0); opacity: 1;}
+}
+
+@keyframes voice-show{
+    0%{transform: translateY(100%); opacity: 0;}
+    25%{transform: translateY(100%); opacity: 0;}
+    50%{transform: translateY(100%); opacity: 0;}
+    75%{transform: translateY(65%); opacity: 0;}
+    100%{transform: translateY(0); opacity: 1;}
+}

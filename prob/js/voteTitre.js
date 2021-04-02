@@ -5,6 +5,7 @@ var socialIcons = {
     youtube: "img/youtube.png",
     vk: "img/vk.png",
     vkcomm: "img/vk.png",
+    vkgroup: "img/vk.png",
     viber: "img/viber.png",
     twitter: "img/twitter.png",
     telegram: "img/telegram.png",
@@ -27,8 +28,6 @@ class VoteTitre{
 	constructor(debug = false){
 		// Включён ли дэбаг
 		this.debug = debug;
-		// Адрес для локальных картинок
-        this.preUrl = get("preUrl", "http://megapolis.iactive.pro/");
         // Откуда получаем титр (левый, правый, оба)
         this.from = get("from", "0");
         // Настройка тени карточки
@@ -53,12 +52,14 @@ class VoteTitre{
 		this.lastMessageId = 0;
 		// ID следующего сообщения
 		this.nextMessageId = 0;
-		// Пауза между сообщениями (мс)
+		// Время удерживания сообщения на экране (мс)
 		this.duration = get("duration", 10000);
+		// Пауза между сообщениями (мс)
+		this.pause = get("pause", 5000);
 		// Показываем ли комментарии (по умолчанию: да)
-		this.showComments = get("showComments", "true");
+		this.showComments = get("showComments", "false");
 		// Индекс отслеживаемой цели (номер от 0 до кол-ва вариантов голосования - 1)
-		this.memberIndex = parseInt(get("memberIndex", "0"))+1;
+		this.memberIndex = parseInt(get("memberIndex", "0"))-1;
 		// Начался ли показ титра
 		this.started = false;
 		// Показывается ли титр
@@ -95,8 +96,7 @@ class VoteTitre{
 			console.log(data);
 			this.members = data.vars;
 			if(!this.started) this.createBlock();
-			let titreCountVotes = document.getElementById("titre-count-votes");
-			if(data.vars[this.memberIndex] != undefined) titreCountVotes.textContent = data.vars[this.memberIndex].count;
+			if(data.vars[this.memberIndex] != undefined) document.getElementById("titre-count-votes").textContent = data.vars[this.memberIndex].count;
 		}).catch((error) => {
 			console.log(error);
 		});
@@ -171,44 +171,84 @@ class VoteTitre{
 	createBlock(){
 		// Если уже есть блок, пропускаем этап создания
 		if(document.getElementById("jam")) return;
-		// Создаём и настраиваем блок
-		let baseTable = document.createElement("div");
-		baseTable.className = "jamming-show";
-		baseTable.id = "jam";
-		baseTable.innerHTML = `<h1 class="left-show">${this.memberIndex}</h1>
-            <p class="p-left-show">${this.members[this.memberIndex-1].name}<div class="YB-show"></div></p>`;
-		// Вставляем табличку с именем участника
-		document.querySelector(".all-block").prepend(baseTable);
-		// Биндим созданее сообщение через 7 секунд после старта первой анимации
-		setTimeout( () => {document.querySelector(".left-show").className = "left-hide";}, 8000 );
-		setTimeout( () => {document.querySelector(".p-left-show").className = "p-left-hide";}, 8000 );
-		setTimeout( () => {document.querySelector(".jamming-show").className = "jamming-hide";}, 8000 );
-		setTimeout( () => {document.querySelector(".YB-show").className = "YB-hide";}, 8000 );
-		setTimeout( () => {this.started = true;}, 3000 );
+		// Настраиваем блок
+		document.getElementById("member-number").textContent = this.memberIndex+1;
+		document.getElementById("member-name").textContent = this.members[this.memberIndex].name;
+		// Начальная анимация появления титра
+		const upBlock = document.querySelector('.up-block-show');
+		const info = document.querySelector('.info');
+		const voiceConter = document.querySelector('.voice-conter');
+		const numberSt = document.querySelector('.number-st-show');
+		const numberOrg = document.querySelector('.number-org');
+    	const voiteText = document.querySelector('.voite-text');
+		setTimeout(() => {
+			upBlock.style.overflow = 'hidden';
+		}, 1450);
+		setTimeout(() => {
+			info.className = 'info-show';
+		}, 720);
+		setTimeout(() => {
+			voiceConter.className = 'voice-conter-show';
+		}, 400);
+		setTimeout(() => {
+			voiceConter.style.overflow = 'hidden';
+		}, 2100);
+		// Показ информации нижнего блока
+		setTimeout(() => {
+			numberOrg.className = 'number-org-show';
+			voiteText.className = 'voite-text-show';
+		}, 200);
+		// Скрытие информации верхнего блока
+		setTimeout(() => {
+			info.className = 'info-hide';
+		}, 10000);
+		setTimeout(() => {
+			info.style.display = 'none';
+			document.querySelector('.up-block-show').style.overflow = 'visible';
+			document.querySelector('.up-block-show').className = 'up-block-hide';
+			numberSt.className = 'number-st-hide';
+		}, 11100);
+		// Включаем индикацию о завершении работы анимации и начала работы титра
+		setTimeout( () => {
+			document.querySelector('.up-block-hide').style.overflow = 'visible';
+			this.started = true;
+		}, 11700 );
 	}
 	// Создаём сообщение
 	createMessage(data){
-		console.log(data)
 		let processedData = this.processMessageData(data);
-		let jam = document.getElementById("jam");
-		jam.innerHTML = `
-		<img src="${processedData.icon}">
-		<div class="message-info">
-		<h1 style="color: ${this.styleColorName};">${processedData.author}</h1>
-		<p style="color: ${this.styleColorText};">${processedData.content}</p>
-		</div>
-		`;
-		jam.className = "message";
-		jam.style.backgroundColor = this.styleCardBg;
-		jam.style.boxShadow = this.styleShadow;
-		jam.style.border = this.styleBorder;
+		const upBlock = document.querySelector('.up-block-hide');
+		upBlock.style.overflow = 'visible !important';
+		upBlock.innerHTML = `
+        <div class="message-show">
+            <div class="MPL">
+                <div class="message-info-hide">
+                    <div class="message-left-block">
+                        <img src="${processedData.icon}" alt="">
+                    </div>
+                    <div class="message-right-block">
+                        <div class="text-show">
+                            <h1 style="color: ${this.styleColorName};">${processedData.author}</h1>
+                            <p style="color: ${this.styleColorText};">${processedData.content}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+        const messageHi = document.querySelector('.message-info-hide');
+        const mS = document.querySelector('.message-show');
+        setTimeout(() => {
+            mS.style.overflow = 'hidden';
+			setTimeout(() => {
+				messageHi.className = 'message-info-show';
+			}, 50);
+        }, 150);
 		setTimeout(()=>{
-			jam.classList.add("hide");
 			setTimeout(()=>{
-				jam.innerHTML = "";
+				this.obj.upBlock.innerHTML = "";
 				this.showing = false;
 			}, 1200);
-		}, 6000);
+		}, this.duration);
 	}
 	// Обработка полученных данных
     processMessageData(data){
