@@ -164,6 +164,7 @@ class VoteTitre{
 				this.nextMessageId++;
 			} else {
 				this.messages = [];
+				this.showing = false;
 			}
 		}	
 	}
@@ -313,4 +314,4 @@ class VoteTitre{
     }
 }
 
-var titre = new VoteTitre();
+var titre = new VoteTitre(false);
