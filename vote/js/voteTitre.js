@@ -33,7 +33,7 @@ class VoteTitre{
         // Настройка тени карточки
         this.styleShadow = get("shadow", "none");
         // Настройка рамки карточки
-        this.styleBorder = get("border", "4px solid yellow");
+        this.styleBorder = get("border", "6px solid yellow");
         // Настройка заднего фона карточки
         this.styleCardBg = get("cardBg", "rgba(0, 0, 0, 0.479)");
         // Цвет имени
@@ -241,7 +241,9 @@ class VoteTitre{
             <div class="MPL">
             <div class="message-info" style="background-color: ${this.styleCardBg}; box-shadow: ${this.styleShadow};">
                 <div class="message-left-block">
-                    <img src="${processedData.icon}" alt="" style="border: ${this.styleBorder}">
+                    <div class = "icon"> 
+                        <img src="${processedData.icon}" alt="">
+                    </div>
                 </div>
                 <div class="message-right-block">
                     <div class="text">
