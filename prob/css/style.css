@@ -7,8 +7,9 @@
 
 .container{
     position: relative;
-    width: 1920px;
-    height: 1080px;
+    width: 2420px;
+    height: 1400px;
+    background: url(../img/back.PNG) no-repeat;
 }
 
 /* Стили для всех блоков */
@@ -155,7 +156,7 @@
 
 .voice-col{
     position: absolute;
-    right: -515px;
+    right: -910px;
     bottom: 0;
     animation-name: voice-show;
     animation-duration: 10s;
@@ -176,12 +177,12 @@
 /* Блок показа сообщения */
 
 .message-show{
-    width: 1680px;
+    width: 980px;
     height: 250px;
     position: absolute;
     bottom: -10px;
     animation-name: show-left;
-    animation-duration: 4.2s;
+    animation-duration: 7.3s;
 }
 
 .message-info{

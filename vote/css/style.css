@@ -176,7 +176,7 @@
 /* Блок показа сообщения */
 
 .message{
-    width: 1450px;
+    min-width: 1450px;
     height: 220px;
     bottom: -18px;
     display: none;
@@ -213,17 +213,22 @@
 
 .message-right-block{
     width: 100%;
+    min-width: 450px;
     margin-left: 15px;
 }
 
 .message-right-block h1{
     color: yellow;
-    font-size: 58px;
+    font-size: 42px;
 }
 
 .message-right-block p{
     color: white;
     font-size: 38px;
+}
+
+.message-right-block.text{
+    min-width: 475px;
 }
 
 .MPL {
