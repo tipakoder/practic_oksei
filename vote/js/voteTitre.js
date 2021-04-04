@@ -33,9 +33,9 @@ class VoteTitre{
         // Настройка тени карточки
         this.styleShadow = get("shadow", "none");
         // Настройка рамки карточки
-        this.styleBorder = get("border", "0");
+        this.styleBorder = get("border", "4px solid yellow");
         // Настройка заднего фона карточки
-        this.styleCardBg = get("cardBg", "rgba(0, 0, 0, 0.52)");
+        this.styleCardBg = get("cardBg", "rgba(0, 0, 0, 0.479)");
         // Цвет имени
         this.styleColorName = get("nameColor", "yellow");
         // Цвет текста
@@ -46,8 +46,8 @@ class VoteTitre{
 		this.user = get("user", "79328532025");
 		// Массив сообщений
 		this.messages = [];
-        // Массив всех полученных сообщений (для отлова повтора и прочего)
-        this.allMessages = [];
+		// Массив содержания
+		this.allMessages = [];
 		// ID последнего сообщения
 		this.lastMessageId = 0;
 		// ID следующего сообщения
@@ -70,7 +70,7 @@ class VoteTitre{
 	// Запускаем жц титра и начинаем взаимодействовать с контентом
 	launch(){
 		// Применяем стартовые настрйоки
-		document.body.style.backgroundColor = this.styleBackgroundColor;
+		document.querySelector(".container").style.backgroundColor = this.styleBackgroundColor;
 		// Получаем начальную информацию
 		this.update();
 	}
@@ -239,14 +239,14 @@ class VoteTitre{
         upBlock.innerHTML = `
             <div class="message">
             <div class="MPL">
-            <div class="message-info">
+            <div class="message-info" style="background-color: ${this.styleCardBg}; box-shadow: ${this.styleShadow};">
                 <div class="message-left-block">
-                    <img src="${processedData.icon}" alt="">
+                    <img src="${processedData.icon}" alt="" style="border: ${this.styleBorder}">
                 </div>
                 <div class="message-right-block">
                     <div class="text">
-                        <h1>${processedData.author}</h1>
-                        <p>${processedData.content}</p>
+                        <h1 style="color: ${this.styleColorName};">${processedData.author}</h1>
+                        <p style="color: ${this.styleColorText};">${processedData.content}</p>
                     </div>
                 </div>
             </div>
