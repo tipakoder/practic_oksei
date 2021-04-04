@@ -125,7 +125,8 @@ class VoteTitre{
 						this.allMessages.findIndex(elm => elm.message.author == message.message.author) === -1 && 
 						this.allMessages.findIndex(elm => elm.message.content == message.message.content) === -1 &&
 						newMessages.findIndex(elm => elm.message.author == message.message.author) === -1 && 
-						newMessages.findIndex(elm => elm.message.content == message.message.content) === -1 
+						newMessages.findIndex(elm => elm.message.content == message.message.content) === -1 &&
+                        message.message.content != ""
 					){ 
 						newMessages.push(message); 
 					}
