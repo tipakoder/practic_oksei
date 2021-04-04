@@ -16,7 +16,7 @@
 .all-block{
     width: 95%;
     height: 550px;
-    font-family: BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family:  BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     position: absolute;
     bottom: 25px;
     left: 125px;
@@ -37,14 +37,18 @@
     background-color: yellow;
     padding: 25px 45px;
     z-index: 1;
+    min-height: 160px;
+    min-width: 140px;
+    position: relative;
 }
 
 .number-st.anim-show{animation: up-block-rotate 2.2s;}
 .number-st.anim-hide{animation: up-block-rotate-hide 4.2s;}
 
 .number-st h1{
-    font-size: 82px;
+    font-size: 86px;
     color: rgb(200, 3, 200);
+    position: absolute;
 }
 
 .info{
@@ -215,14 +219,14 @@
 }
 
 .icon img{
-    width: 103.5%;
-    height: 103.5%;
+    width: 103%;
+    height: 103%;
     border-radius: 4px;
     position: absolute;
-    left: -3px;
-    right: -1px;
-    top: -3px;
-    bottom: -1px;
+    left: -2.5px;
+    right: 0;
+    top: -2px;
+    bottom: 0;
 }
 
 .message-right-block{
