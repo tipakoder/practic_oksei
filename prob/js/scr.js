@@ -62,6 +62,15 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             messageHi.className = 'message-info-show';
         }, 200);
+
+        setTimeout(() => {
+            messageHi.className = 'hide-message-info'
+        }, 6000);
+
+        setTimeout(() => {
+            messageHi.style.display = 'none'
+        }, 6100);
+
         setTimeout(() => {
             mS.style.overflow = 'hidden';
         }, 150);

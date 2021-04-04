@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @keyframes show-titre{
+            0%{transform: translateX(-100%);}
+            100%{transform: translateX(0%);}
+        }
+
+        @keyframes show-text {
+            0%{transform: translateX(-100%);padding-right: 10px;}
+            100%{transform: translateX(0%);padding-right: 25px;}
+        }
+
+        @keyframes show-number{
+            0%{transform: rotate(-180deg); opacity: 0;}
+            100%{transform: rotate(0deg); opacity: 1;}
+        }
+
+        @keyframes show-anim-line {
+            0%{right: 100%;}
+            100%{right: 0px;}
+        }
+
+        *{
+            margin: 0;
+            padding: 0;
+            border: 0;
+            box-sizing: border-box;
+        }
+        #titreBody{
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 1920px;
+            height: 1080px;
+            background-color: pink;
+        }
+        .up-line{
+            position: absolute;
+            bottom: 200px;
+            left: 100px;
+        }
+        .up-line .banner{
+            display: flex;
+            animation: show-titre 1.2s;
+        }
+        .up-line .banner .number{
+            padding: 16px;
+            font-size: 30pt;
+            color: #ad0db6;
+            background-color: yellow;
+            height: 80px;
+            width: 80px;
+            text-align: center;
+            animation: show-number 1.5s;
+        }
+        .up-line .banner .main-info{
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .up-line .banner .main-info .text{
+            padding: 10px;
+            font-size: 22pt;
+            background-color: #000;
+            color: #FFF;
+            transform: translateX(-110%);
+        }
+        .up-line .banner.show .main-info .text{
+            animation: show-text 1s;
+            transform: translateX(0%);
+            padding-right: 25px;
+        }
+        .up-line .banner .main-info .anim-line{
+            position: absolute;
+            content: '';
+            width: 15px;
+            height: 100%;
+            background-color: yellow;
+            right: 100%;
+        }
+        .up-line .banner.show .main-info .anim-line{
+            animation: show-anim-line 0.99s;
+            right: 0px;
+        }
+        .down-line{
+            position: absolute;
+            bottom: 100px;
+            left: 100px;
+        }
+        .down-line .statusbar{
+            animation-delay: 2.2s;
+            animation: show-titre 1s;
+            transform: translateX(-100%);
+            overflow: hidden;
+            padding: 4px 0px;
+        }
+        .down-line .statusbar .bar{
+            display: flex;
+            align-items: center;
+        }
+        .down-line .statusbar .bar .phone{
+            padding: 16px;
+            color: yellow;
+            font-size: 16pt;
+            background-color: #000;
+            transform: translateX(-200%);;
+            animation: show-titre 1.2s;
+            animation-delay: 2.2s;
+            z-index: 1000;
+            margin-left: 15px;
+        }
+        .down-line .statusbar .bar .invite{
+            font-size: 14pt;
+            padding: 10px 20px;
+            background-color: #fff;
+            text-transform: uppercase;
+            transform: translateX(-200%);
+            margin-right: 15px;
+        }
+        .down-line .statusbar .bar.show .invite{
+            animation-delay: 1.2s;
+            animation: show-titre 1.2s;
+            transform: translateX(0%);
+        }
+        .down-line .statusbar .anim-line{
+            content: '';
+            position: absolute;
+            top: -4px;
+            width: 15px;
+            height: calc(100% + 8px);
+            background-color: #ad0db6;
+            z-index: 2000;
+        }
+        .down-line .statusbar .anim-line.left{
+            left: 0;
+        }
+        .down-line .statusbar .anim-line.right{
+            animation-delay: 3.2s;
+            animation: show-anim-line 1.2s;
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="titreBody">
+        <div class="up-line">
+            <div class="banner">
+                <h1 class="number">1</h1>
+                <div class="main-info">
+                    <p class="text">Данил</p>
+                    <div class="anim-line"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="down-line">
+            <div class="statusbar">
+                <div class="anim-line left"></div>
+                <div class="bar">
+                    <p class="phone">+7 961 900 20 08</p>
+                    <p class="invite">Голосуй за участников <span class="icons">() () () () () ()</span></p>
+                </div>
+                <div class="anim-line right"></div>
+            </div>
+        </div>
+    </div>
+    <script>transform: 
+        setTimeout(() => {
+            document.querySelector(".up-line>.banner").classList.add("show");
+            setTimeout(()=>{
+                document.querySelector(".down-line .statusbar").style.transform = "translateX(0%)";
+                document.querySelector(".down-line .bar .phone").style.transform = "translateX(0%)";
+                document.querySelector(".down-line .statusbar .anim-line.right").style.right = "0px";
+                document.querySelector(".down-line .bar").classList.add("show");
+            }, 1000);
+        }, 1200);
+    </script>
+</body>
+</html>

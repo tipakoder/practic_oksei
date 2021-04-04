@@ -33,9 +33,9 @@ class VoteTitre{
         // Настройка тени карточки
         this.styleShadow = get("shadow", "none");
         // Настройка рамки карточки
-        this.styleBorder = get("border", "0");
+        this.styleBorder = get("border", "4px solid yellow");
         // Настройка заднего фона карточки
-        this.styleCardBg = get("cardBg", "rgba(0, 0, 0, 0.52)");
+        this.styleCardBg = get("cardBg", "rgba(0, 0, 0, 0.479)");
         // Цвет имени
         this.styleColorName = get("nameColor", "yellow");
         // Цвет текста
@@ -46,6 +46,8 @@ class VoteTitre{
 		this.user = get("user", "79328532025");
 		// Массив сообщений
 		this.messages = [];
+		// Массив содержания
+		this.messagesOld = [];
 		// ID последнего сообщения
 		this.lastMessageId = 0;
 		// ID следующего сообщения
@@ -57,7 +59,7 @@ class VoteTitre{
 		// Показываем ли комментарии (по умолчанию: да)
 		this.showComments = get("showComments", "false");
 		// Индекс отслеживаемой цели (номер от 0 до кол-ва вариантов голосования - 1)
-		this.memberIndex = parseInt(get("memberIndex", "0"))-1;
+		this.memberIndex = parseInt(get("memberIndex", "1"))-1;
 		// Начался ли показ титра
 		this.started = false;
 		// Показывается ли титр
@@ -68,10 +70,8 @@ class VoteTitre{
 	// Запускаем жц титра и начинаем взаимодействовать с контентом
 	launch(){
 		// Применяем стартовые настрйоки
-		document.body.style.backgroundColor = this.styleBackgroundColor;
-		// Запускаем интервал
-		this.interval = setInterval(() => {this.update();}, this.duration);
-		// Запускаем сразу
+		document.querySelector(".container").style.backgroundColor = this.styleBackgroundColor;
+		// Получаем первоначальные данные с сервера
 		this.update();
 	}
 	// Обновление каждый неопределённый раз
@@ -93,14 +93,16 @@ class VoteTitre{
 		}).then((data) => {
 			console.log(data);
 			this.members = data.vars;
-			if(!this.started) this.createBlock();
-			if(data.vars[this.memberIndex] != undefined) document.getElementById("titre-count-votes").textContent = data.vars[this.memberIndex].count;
+			if(data.vars[this.memberIndex] != undefined){
+				document.getElementById("titre-count-votes").textContent = data.vars[this.memberIndex].count;
+				if(this.started == false) this.createBlock();
+			}
 		}).catch((error) => {
 			console.log(error);
 		});
 
 		// Получаем новые сообщения
-		if(this.showComments == "true"){
+		if(this.showComments == "true" && this.started){
 			fetch(`http://api.stream.iactive.pro/titreInfo?user=${this.user}&from=${this.lastMessageId}&type=${this.from}`, {}).then(async(res) => {
 				try{
 					let dataRes = await res.json();
@@ -119,7 +121,8 @@ class VoteTitre{
 				for(let message of data.messagesList){
 					if(
 						data.deletedMessagesIdList.indexOf(message.id) === -1 &&
-						this.messages.findIndex(elm => elm.message.author == message.message.author) === -1
+						this.messagesOld.findIndex(elm => elm.message.author == message.message.author) === -1 &&
+						this.messagesOld.findIndex(elm => elm.message.content == message.message.content) === -1
 					){ 
 						newMessages.push(message); 
 					}
@@ -127,6 +130,7 @@ class VoteTitre{
 				console.log(newMessages)
 				if(newMessages.length > 0){
 					for(let message of newMessages){
+						this.messagesOld.unshift(message);
 						this.messages.unshift(message);
 					}
 					// Запоминаем индекс последнего полученного сообщения
@@ -165,85 +169,106 @@ class VoteTitre{
 	}
 	// Создаём блок
 	createBlock(){
-		// Если уже есть блок, пропускаем этап создания
-		if(document.getElementById("jam")) return;
 		// Настраиваем блок
 		document.getElementById("member-number").textContent = this.memberIndex+1;
 		document.getElementById("member-name").textContent = this.members[this.memberIndex].name;
 		// Начальная анимация появления титра
-		const upBlock = document.querySelector('.up-block-show');
-		const info = document.querySelector('.info');
-		const voiceConter = document.querySelector('.voice-conter');
-		const numberSt = document.querySelector('.number-st-show');
-		const numberOrg = document.querySelector('.number-org');
-    	const voiteText = document.querySelector('.voite-text');
+		this.obj = {};
+		this.obj.upBlock = document.querySelector('.up-block');
+		this.obj.info = document.querySelector('.info');
+		this.obj.voiceConter = document.querySelector('.voice-conter');
+		this.obj.numberSt = document.querySelector('.number-st');
+		this.obj.numberOrg = document.querySelector('.number-org');
+    	this.obj.voiteText = document.querySelector('.voite-text');
+		this.obj.upBlock.classList.add("anim-show");
+		this.obj.numberSt.classList.add("anim-show");
 		setTimeout(() => {
-			upBlock.style.overflow = 'hidden';
+			this.obj.upBlock.style.overflow = 'hidden';
 		}, 1450);
 		setTimeout(() => {
-			info.className = 'info-show';
+			this.obj.info.classList.add("anim-show");
 		}, 720);
 		setTimeout(() => {
-			voiceConter.className = 'voice-conter-show';
+			this.obj.voiceConter.classList.add("anim-show");
 		}, 400);
 		setTimeout(() => {
-			voiceConter.style.overflow = 'hidden';
+			this.obj.voiceConter.style.overflow = 'hidden';
 		}, 2100);
 		// Показ информации нижнего блока
 		setTimeout(() => {
-			numberOrg.className = 'number-org-show';
-			voiteText.className = 'voite-text-show';
+			this.obj.numberOrg.classList.add('anim-show');
+			this.obj.voiteText.classList.add('anim-show');
 		}, 200);
 		// Скрытие информации верхнего блока
 		setTimeout(() => {
-			info.className = 'info-hide';
+			this.obj.info.classList.add('anim-hide');
 		}, 10000);
 		setTimeout(() => {
-			info.style.display = 'none';
-			document.querySelector('.up-block-show').style.overflow = 'visible';
-			document.querySelector('.up-block-show').className = 'up-block-hide';
-			numberSt.className = 'number-st-hide';
-		}, 11100);
+			this.obj.info.style.display = 'none';
+			this.obj.upBlock.style.overflow = 'visible';
+			this.obj.upBlock.classList.add('anim-hide');
+			this.obj.numberSt.classList.add('anim-hide');
+		}, 10900);
 		// Включаем индикацию о завершении работы анимации и начала работы титра
 		setTimeout( () => {
-			document.querySelector('.up-block-hide').style.overflow = 'visible';
+			// Очищаем верхний блок
+			this.obj.upBlock.innerHTML = "";
+			// Меняем индикатор начала
 			this.started = true;
+			// Запускаем интервал обновления
+			this.interval = setInterval(() => {this.update();}, this.duration+this.pause);
+			// Выполняем первый запуск обновления
+			this.update();
 		}, 11700 );
 	}
 	// Создаём сообщение
 	createMessage(data){
 		let processedData = this.processMessageData(data);
-		const upBlock = document.querySelector('.up-block-hide');
-		upBlock.style.overflow = 'visible !important';
-		upBlock.innerHTML = `
-        <div class="message-show">
-            <div class="MPL">
-                <div class="message-info-hide">
-                    <div class="message-left-block">
-                        <img src="${processedData.icon}" alt="">
-                    </div>
-                    <div class="message-right-block">
-                        <div class="text-show">
-                            <h1 style="color: ${this.styleColorName};">${processedData.author}</h1>
-                            <p style="color: ${this.styleColorText};">${processedData.content}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>`;
-        const messageHi = document.querySelector('.message-info-hide');
-        const mS = document.querySelector('.message-show');
+		if( !document.querySelector(".message-show") ) { 
+			this.obj.upBlock.innerHTML = `
+			<div class="message-show">
+				<div class="MPL">
+					<div class="message-info" style="background-color: ${this.styleCardBg}; box-shadow: ${this.styleShadow};">
+						<div class="message-left-block">
+							<img src="${processedData.icon}" alt="" style="border: ${this.styleBorder}">
+						</div>
+						<div class="message-right-block">
+							<div class="text-show">
+								<h1 style="color: ${this.styleColorName};">${processedData.author}</h1>
+								<p style="color: ${this.styleColorText};">${processedData.content}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>`;
+		} else {
+			document.querySelector(".message-show .MPL").innerHTML = `
+			<div class="message-info" style="background-color: ${this.styleCardBg}; box-shadow: ${this.styleShadow};">
+				<div class="message-left-block">
+					<img src="${processedData.icon}" alt="" style="border: ${this.styleBorder}">
+				</div>
+				<div class="message-right-block">
+					<div class="text-show">
+						<h1 style="color: ${this.styleColorName};">${processedData.author}</h1>
+						<p style="color: ${this.styleColorText};">${processedData.content}</p>
+					</div>
+				</div>
+			</div>`;
+		}
+        this.obj.messageHi = document.querySelector('.message-info');
+        this.obj.mS = document.querySelector('.message-show');
         setTimeout(() => {
-            mS.style.overflow = 'hidden';
+            this.obj.mS.style.overflow = 'hidden';
 			setTimeout(() => {
-				messageHi.className = 'message-info-show';
+				this.obj.messageHi.classList.add('anim-show');
 			}, 50);
         }, 150);
 		setTimeout(()=>{
+			this.obj.messageHi.classList.add('anim-hide');
 			setTimeout(()=>{
-				this.obj.upBlock.innerHTML = "";
+				document.querySelector(".message-show .MPL").style.display = 'none';
 				this.showing = false;
-			}, 1200);
+			}, 600);
 		}, this.duration);
 	}
 	// Обработка полученных данных
@@ -286,8 +311,6 @@ class VoteTitre{
             channel: data.channel,
         };
     }
-
 }
-
 
 var titre = new VoteTitre();
