@@ -210,7 +210,7 @@
 }
 
 .icon{
-    width: 195px;
+    width: 175px;
     height: 180px;
     margin: 12px 0px 0px 20px;
     border-radius: 8px;
@@ -225,6 +225,7 @@
     position: absolute;
     left: -2.5px;
     top: -3px;
+    background-color: yellow;
 }
 
 .message-right-block{
