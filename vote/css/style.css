@@ -138,7 +138,7 @@
     background-color: white;
     height: 55px;
     padding: 0px 20px 0px 20px;
-    font-size: 18px;
+    font-size: 16px;
     display: none;
     animation-name: show-left;
     animation-duration: 6.2s;
@@ -152,7 +152,7 @@
     max-width: 50px;
     max-height: 50px;
     border-radius: 100px;
-    margin: 2px 9px 0px 0px;
+    margin: 2px 15px 0px 0px;
 }
 
 /* Блок кол-ва голосов */
