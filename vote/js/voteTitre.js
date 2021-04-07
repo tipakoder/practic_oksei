@@ -242,7 +242,7 @@ class VoteTitre{
             <div class="message-info" style="background-color: ${this.styleCardBg}; box-shadow: ${this.styleShadow};">
                 <div class="message-left-block">
                     <div class = "icon"> 
-                        <img src="${processedData.icon}" alt="">
+                        <img id="processedDataImage" style="display: none;" src="${processedData.icon}" alt="">
                     </div>
                 </div>
                 <div class="message-right-block">
@@ -299,6 +299,15 @@ class VoteTitre{
         } else {
             icon = socialIcons[data.channel]; // Добавляем картинку соц. сети
         }
+		// Если есть картинка, проверяем на её доступность
+		if(icon != "") {
+			let iconTube = new Image();
+			iconTube.src = icon;
+			iconTube.onload = function(){
+				let objImage = document.getElementById("processedDataImage");
+				objImage.style.display = "block";
+			}
+		}
         // Обработка вложений
         let srcAttachment = "";
         if(data.attachments && data.attachments.length > 0 && data.attachments[0].type == "image"){

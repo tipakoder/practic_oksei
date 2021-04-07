@@ -1,3 +1,7 @@
+@font-face{ src: url("../fonts/Roboto-Light.ttf"); font-family: Light; }
+@font-face{ src: url("../fonts/Roboto-Regular.ttf"); font-family: Regular; }
+@font-face{ src: url("../fonts/Roboto-Medium.ttf"); font-family: Medium; }
+
 *{
     margin: 0;
     padding: 0;
@@ -16,7 +20,7 @@
 .all-block{
     width: 95%;
     height: 550px;
-    font-family:  BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family:  Regular;
     position: absolute;
     bottom: 25px;
     left: 125px;
@@ -40,6 +44,9 @@
     min-height: 160px;
     min-width: 140px;
     position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .number-st.anim-show{animation: up-block-rotate 2.2s;}
@@ -144,8 +151,10 @@
     animation-duration: 6.2s;
     position: relative;
     z-index: 1;
+	align-items: center;
 }
 
+.voite-text h1{margin-right: 50px;}
 .voite-text.anim-show{animation: show-left 1.7s; display: flex;}
 
 .voite-text img{
